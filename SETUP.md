@@ -1,4 +1,4 @@
-My App Setup Instructions
+Smartsheet Setup Instructions
 ===
 
 TODO: Write setup instructions
