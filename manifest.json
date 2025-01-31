@@ -1,6 +1,6 @@
 {
   "name": "@deskpro-apps/smartsheet",
-  "title": "TBD",
+  "title": "Smartsheet",
   "description": "My Deskpro app",
   "version": "0.0.21",
   "scope": "agent",
@@ -8,19 +8,26 @@
   "hasDevMode": true,
   "targets": [{ "target": "ticket_sidebar", "entrypoint": "index.html" }],
   "settings": {
-    "example": {
-      "title": "Example Setting",
-      "description": "Example backend only setting",
+    "access_token": {
+      "title": "Access token",
+      "description": "Smartsheet Access token",
       "type": "string",
-      "isRequired": false,
+      "isRequired": true,
       "isBackendOnly": true
+    }
+  },
+  "entityAssociations":{
+    "linkedTasks": {
+      "entity": "ticket",
+      "type": "external_id",
+      "title": "Linked Smartsheet tasks(rows)"
     }
   },
   "proxy": {
     "whitelist": [
       {
-        "url": "https://jsonplaceholder.typicode.com/.*",
-        "methods": ["GET"],
+        "url": "https://api.smartsheet.com/2.0/.*",
+        "methods": ["GET", "POST", "PUT", "DELETE"],
         "timeout": 20
       }
     ]
