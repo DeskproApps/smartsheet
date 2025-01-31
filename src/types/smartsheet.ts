@@ -58,6 +58,7 @@ export interface Sheet {
     id: number
     name: string
     version: number
+    totalRowCount: number
     accessLevel: ResourceAccessLevel
     effectiveAttachmentOptions?: string[]
     ganttEnabled: boolean
@@ -65,6 +66,7 @@ export interface Sheet {
     resourceManagementEnabled: boolean
     resourceManagementType: ResourceManagementType
     cellImageUploadEnabled: boolean
+    readOnly?: boolean
     userSettings: {
         criticalPathEnabled: boolean
         displaySummaryTasks: boolean
