@@ -2,6 +2,7 @@ export interface SmartSheetPageResponse<T = unknown>{
     pageNumber: number
     pageSize: number
     totalPages: number
+    totalCount: number
     data: T[]
 }
 
@@ -88,3 +89,8 @@ export interface Sheet {
 
 }
 
+
+export interface DetailedSheet {
+    metadata: SheetMetadata
+    data: Sheet
+}
