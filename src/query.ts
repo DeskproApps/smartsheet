@@ -13,7 +13,8 @@ const queryClient = new QueryClient({
 });
 
 const QueryKey = {
-  POSTS: "posts",
+  SHEETS_META: "sheets_metadata",
+  DETAILED_SHEET: "detailed_sheet"
 }
 
 export { queryClient, QueryKey };
