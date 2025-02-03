@@ -94,3 +94,22 @@ export interface DetailedSheet {
     metadata: SheetMetadata
     data: Sheet
 }
+
+export interface Task {
+    title: string
+    id: SheetRow["id"]
+    sheet: {
+        id: Sheet["id"]
+        name: Sheet["name"]
+        liveLink: Sheet["permalink"]
+    }
+    items: {
+        columnId?: SheetColumn["id"]
+        title: string
+        value?: string
+        type?: SmartsheetColumnType
+        isPrimary?: SheetColumn["primary"]
+        options?: SheetColumn["options"]
+    }[]
+
+}
