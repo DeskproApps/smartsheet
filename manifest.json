@@ -17,7 +17,7 @@
     }
   },
   "entityAssociations":{
-    "linkedTasks": {
+    "linkedSmartsheetTasks": {
       "entity": "ticket",
       "type": "external_id",
       "title": "Linked Smartsheet tasks(rows)"
