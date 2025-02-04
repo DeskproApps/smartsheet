@@ -15,7 +15,6 @@ import getRegisteredTaskIds from "@/api/deskpro";
 import LinkTasks from "./LinkTasks";
 import useTasks from "./useTasks";
 
-
 const LinkTasksPage: FC = ()=>{
   const navigate = useNavigate();
   const { client } = useDeskproAppClient()
@@ -25,7 +24,7 @@ const LinkTasksPage: FC = ()=>{
   const [selectedTaskIds, setSelectedTaskIds] = useState<Task["id"][]>([]);
   const {sheets, tasks, isLoading} = useTasks(selectedSheetId)
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
-  
+
   
   useSetTitle("Link Tasks");
   
@@ -39,16 +38,21 @@ const LinkTasksPage: FC = ()=>{
     if (!ticketId || !client) {
       return;
     }
-    getRegisteredTaskIds(client, ticketId).then(setSelectedTaskIds)
+    getRegisteredTaskIds(client, ticketId)
+    .then(setSelectedTaskIds)
+    .catch(()=>{setSelectedTaskIds([])})
   }, [client, ticketId])
 
-  // Set the app's badge count as the nuumber of linked tasks
+  // Set the app's badge count as the number of linked tasks
   useInitialisedDeskproAppClient((client) => {
     if (!ticketId) {
       return;
     }
-    client.getEntityAssociation("linkedSmartsheetTasks", ticketId).list().then((cardIds) => {client.setBadgeCount(cardIds.length)})
-}, [client]);
+    client.getEntityAssociation("linkedSmartsheetTasks", ticketId)
+    .list()
+    .then((cardIds) => {client.setBadgeCount(cardIds.length)})
+    .catch(()=>{client.setBadgeCount(0)})
+}, [client])
 
   useDeskproElements(({ clearElements, registerElement }) => {
     clearElements();
@@ -92,8 +96,6 @@ const LinkTasksPage: FC = ()=>{
     }).catch(()=>{throw new Error("Error linking tasks")})
 
   }
-
-
 
     return (<LinkTasks 
     onCreateTaskClick={() => navigate("/create-task")}

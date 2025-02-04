@@ -1,5 +1,4 @@
 import { createSearchParams } from "react-router-dom";
-import { Dict } from "@/types/general";
 import { RequestParams } from "@/types/api";
 import type { ParamKeyValuePair } from "react-router-dom";
 
@@ -25,14 +24,14 @@ export default function getQueryParams (data?: RequestParams["queryParams"]): st
 
   // If the data is an array, format it using createSearchParams
   if (Array.isArray(data)) {
-    return `${createSearchParams(data)}`;
+    return createSearchParams(data).toString();
   }
 
   // If the data is an object, convert the object into key-value pairs
   if (typeof data === "object" && data.constructor === Object) {
-    const parsedQueryParams = Object.keys(data as Dict<string>)
-      .map<ParamKeyValuePair>((key) => ([key, (data as Dict<string>)[key]]));
-    return `${createSearchParams(parsedQueryParams)}`;
+    const parsedQueryParams = Object.keys(data)
+      .map<ParamKeyValuePair>((key) => ([key, (data)[key]]));
+    return createSearchParams(parsedQueryParams).toString();
   }
 
   return "";

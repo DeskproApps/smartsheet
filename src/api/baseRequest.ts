@@ -52,7 +52,7 @@ export async function baseRequest<T>(
     }
   
     try {
-      return await res.json();
+      return await res.json() as T;
     } catch (e) {
       return {} as T;
     }

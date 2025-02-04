@@ -26,7 +26,7 @@ const RedirectPage: FC = () => {
     getRegisteredTaskIds(client, context?.data?.ticket.id).then((linkedTaskIds)=>{
         linkedTaskIds.length<1? navigate("/link-task"):
         navigate("/home")
-      })
+      }).catch(()=>{navigate("/link-task")})
   
     
   

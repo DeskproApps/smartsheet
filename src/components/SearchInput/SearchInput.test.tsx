@@ -4,7 +4,7 @@ import SearchInput from "./SearchInput";
 import userEvent from "@testing-library/user-event";
 
 describe("Search Input", () => {
-  test("render", async () => {
+  test("render", () => {
     const { container } = render(<SearchInput />, { wrappers: { theme: true } });
 
     const input = container.querySelector("input#search");
