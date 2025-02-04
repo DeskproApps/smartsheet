@@ -17,7 +17,7 @@ export interface SheetMetadata {
     modifiedAt: string
 }
 
-export type SmartsheetColumnType ="TEXT_NUMBER" | "DATE" | "PICKLIST" | "CONTACT_LIST" | "CHECKBOX" | "CELL_LINK" | "TIMESTAMP"
+export type SmartsheetColumnType ="TEXT_NUMBER" | "DATE" | "DATETIME" | "PICKLIST" | "CONTACT_LIST" | "CHECKBOX" | "CELL_LINK" | "TIMESTAMP"
 
 export interface SheetColumn {
     id: number; 
