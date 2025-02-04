@@ -1,0 +1,77 @@
+import { Container } from "@/components/Layout/Container";
+import { FC, Fragment, useEffect, useState } from "react"
+import { HorizontalDivider, Link, useDeskproAppClient, useDeskproElements, useDeskproLatestAppContext, useInitialisedDeskproAppClient } from "@deskpro/app-sdk";
+import { P1, Spinner, Stack } from "@deskpro/deskpro-ui"
+import { Task } from "@/types/smartsheet";
+import { TicketData } from "@/types";
+import { useNavigate } from "react-router-dom"
+import { useSetTitle } from "@/hooks/useSetTitle";
+import Card from "@/components/Card";
+import getRegisteredTaskIds from "@/api/deskpro";
+import TaskDetail from "../LinkTasksPage/TaskDetail";
+import useTasks from "../LinkTasksPage/useTasks";
+
+
+const HomePage: FC = () => {
+
+  useSetTitle("Smartsheet")
+  const navigate = useNavigate()
+  const { client } = useDeskproAppClient()
+  const { context } = useDeskproLatestAppContext<TicketData, unknown>()
+  const [linkedTaskIds, setLinkedTaskIds] = useState<Task["id"][]>([])
+  const {isLoading, tasks} = useTasks()
+
+  useDeskproElements(({ clearElements, registerElement }) => {
+      clearElements();
+      registerElement("plus", {
+        type: "plus_button",
+        payload: { type: "changePage", path: "/link" },
+      })    
+      registerElement("refresh", { type: "refresh_button" })
+    })
+
+    const ticketId = context?.data?.ticket.id
+      
+    // Set the linked tasks once the page loads
+    useEffect(() => {
+    if (!ticketId || !client) return 
+    getRegisteredTaskIds(client, ticketId).then(setLinkedTaskIds).catch(()=>setLinkedTaskIds([]))
+    }, [client, ticketId])
+
+    // Set the app's badge count as the number of linked tasks
+    useInitialisedDeskproAppClient((client) => {
+        if (!ticketId) {
+          return;
+        }
+        client.getEntityAssociation("linkedSmartsheetTasks", ticketId)
+        .list()
+        .then((cardIds) => {client.setBadgeCount(cardIds.length)})
+        .catch(()=>{client.setBadgeCount(0)})
+    }, [client])
+    
+    const linkedTasks = tasks.filter((task)=>linkedTaskIds.includes(task.id))
+
+    if(isLoading) return <Spinner/>
+
+    return (<Container>
+
+        {!linkedTasks.length? <Stack><P1>No linked tasks. <Link href="#" onClick={(e)=>{
+            e.preventDefault()
+            navigate("/link-task")
+        }}>Link Tasks</Link></P1>  </Stack>: linkedTasks.map((linkedTask)=>{
+            return (
+                <Fragment key={linkedTask.id}>
+                    <Card>
+                    <Card.Body>
+                            <TaskDetail task={linkedTask} onClickTitle={()=>navigate(`/edit/${linkedTask.id}`)}/>
+                        </Card.Body>
+                    </Card>
+                    <HorizontalDivider style={{ marginBottom: 6 }} />
+                </Fragment>
+            )
+        }) }
+    </Container>)
+    
+}
+
+export default HomePage
