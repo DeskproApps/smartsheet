@@ -1,4 +1,5 @@
 import { Sheet, Task } from "@/types/smartsheet"
+import { validateCellValue } from "./validateCellValue";
 
 /**
  * Extracts tasks from an array of Smartsheet sheets.
@@ -33,7 +34,8 @@ export function getTasksFromSheets(detailedSheets: (Sheet | null)[]): Task[] {
                     return {
                         columnId: column?.id,
                         title: column?.title ?? "Unknown Column",
-                        value: cell.displayValue,
+                        // Prioritise the display name, then the value (if present), convert the value to a string
+                        value: validateCellValue(cell.displayValue ?? (cell.value !== null && cell.value !== undefined ? String(cell.value) : undefined), column),
                         type: column?.type,
                         isPrimary: column?.primary,
                         options: column?.options ,
