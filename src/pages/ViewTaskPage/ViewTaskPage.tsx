@@ -18,7 +18,7 @@ const ViewTaskPage: FC = () => {
 
     const { sheetId, rowId } = useParams()
 
-    // Providing the sheet id will return a task array with one task
+    // Providing the sheet id will return an array of tasks from the provided sheet
     const { tasks, isLoading } = useTasks(Number(sheetId))
     const { client } = useDeskproAppClient()
     const { context } = useDeskproLatestAppContext<TicketData, unknown>()
@@ -45,11 +45,18 @@ const ViewTaskPage: FC = () => {
                 case "menu":
                     if (!client || !ticketId) break
                     getRegisteredTaskIds(client, ticketId)
-                        .then(() => {
-                            client.getEntityAssociation("linkedSmartsheetTasks", ticketId)
-                                .delete(rowId ?? "").catch(() => { })
-                            navigate("/home")
-                        }).catch(() => { })
+                    .then(async () => {
+                        try {
+                            await client.getEntityAssociation("linkedSmartsheetTasks", ticketId)
+                                .delete(rowId ?? "");
+                            navigate("/home");
+                        } catch (error) {
+                            return 
+                        }
+                    })
+                    .catch(() => {
+                        
+                    });
                     break
             }
         },
@@ -61,7 +68,7 @@ const ViewTaskPage: FC = () => {
         </Stack>
     )
 
-    const activeTask = tasks[0]
+    const activeTask = tasks.filter((task)=>task.id.toString() === rowId)[0]
     if (!activeTask) return (<TaskNotFound />)
 
     return <>
