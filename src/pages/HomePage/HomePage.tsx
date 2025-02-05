@@ -1,6 +1,6 @@
+import { AppElementPayload, HorizontalDivider, Link, useDeskproAppClient, useDeskproAppEvents, useDeskproElements, useDeskproLatestAppContext, useInitialisedDeskproAppClient } from "@deskpro/app-sdk";
 import { Container } from "@/components/Layout/Container";
 import { FC, Fragment, useEffect, useState } from "react"
-import { HorizontalDivider, Link, useDeskproAppClient, useDeskproElements, useDeskproLatestAppContext, useInitialisedDeskproAppClient } from "@deskpro/app-sdk";
 import { P1, Spinner, Stack } from "@deskpro/deskpro-ui"
 import { Task } from "@/types/smartsheet";
 import { TicketData } from "@/types";
@@ -30,6 +30,16 @@ const HomePage: FC = () => {
       registerElement("refresh", { type: "refresh_button" })
     })
 
+    useDeskproAppEvents({
+        onElementEvent(_id: string, type: string, _payload?: AppElementPayload) {
+          switch (type) {
+            case "plus_button":
+              navigate("/link-task")
+              break;
+          }
+        },
+      });
+
     const ticketId = context?.data?.ticket.id
       
     // Set the linked tasks once the page loads
@@ -51,7 +61,11 @@ const HomePage: FC = () => {
     
     const linkedTasks = tasks.filter((task)=>linkedTaskIds.includes(task.id))
 
-    if(isLoading) return <Spinner/>
+    if(isLoading) return (
+    <Stack padding={20} justify={"center"}>
+        <Spinner/>
+    </Stack>
+    )
 
     return (<Container>
 

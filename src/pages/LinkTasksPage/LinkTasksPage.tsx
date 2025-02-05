@@ -1,13 +1,15 @@
+import {
+  AppElementPayload,
+  useDeskproAppClient,
+  useDeskproAppEvents,
+  useDeskproElements,
+  useDeskproLatestAppContext,
+  useInitialisedDeskproAppClient,
+} from "@deskpro/app-sdk";
 import { applyTaskFilter } from "@/api/smartsheet";
 import { Maybe } from "@/types/general";
 import { Sheet, Task } from "@/types/smartsheet";
 import { TicketData } from "@/types";
-import {
-  useDeskproElements,
-  useDeskproAppClient,
-  useDeskproLatestAppContext,
-  useInitialisedDeskproAppClient,
-} from "@deskpro/app-sdk";
 import { useEffect, useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetTitle } from "@/hooks/useSetTitle";
@@ -61,6 +63,16 @@ const LinkTasksPage: FC = ()=>{
       payload: { type: "changePage", path: "/home" },
     })
     registerElement("refresh", { type: "refresh_button" })
+  });
+
+  useDeskproAppEvents({
+    onElementEvent(_id: string, type: string, _payload?: AppElementPayload) {
+      switch (type) {
+        case "home_button":
+          navigate("/home")
+          break;
+      }
+    },
   });
 
 
