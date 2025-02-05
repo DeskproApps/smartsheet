@@ -18,7 +18,7 @@ const ViewTaskPage: FC = () => {
 
     const { sheetId, rowId } = useParams()
 
-    if (!sheetId || !rowId) return (<TaskNotFound />)
+
 
     // Providing the sheet id will return a task array with one task
     const { tasks, isLoading } = useTasks(Number(sheetId))
@@ -35,8 +35,6 @@ const ViewTaskPage: FC = () => {
         registerElement("menu", { type: "menu", items: [{ title: "Unlink task" }] })
     });
 
-
-
     useDeskproAppEvents({
         onElementEvent(_id: string, type: string, _payload?: AppElementPayload) {
             switch (type) {
@@ -51,14 +49,13 @@ const ViewTaskPage: FC = () => {
                     getRegisteredTaskIds(client, ticketId)
                         .then(() => {
                             client.getEntityAssociation("linkedSmartsheetTasks", ticketId)
-                                .delete(rowId)
-                        })
-                        .then(() => { navigate("/home") })
-                        .catch(() => { })
+                                .delete(rowId ?? "").catch(() => { })
+                            navigate("/home")
+                        }).catch(() => { })
                     break
             }
         },
-    });
+    })
 
     if (isLoading) return (
         <Stack padding={20} justify={"center"}>
