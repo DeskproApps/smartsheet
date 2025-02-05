@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"
 import { useSetTitle } from "@/hooks/useSetTitle";
 import Card from "@/components/Card";
 import getRegisteredTaskIds from "@/api/deskpro";
-import TaskDetail from "../LinkTasksPage/TaskDetail";
+import TaskDetail from "@/components/TaskDetail";
 import useTasks from "@/hooks/useTasks";
 
 

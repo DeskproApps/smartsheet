@@ -7,7 +7,7 @@ import { Sheet, SheetMetadata, Task } from "@/types/smartsheet"
 import Card from "@/components/Card"
 import ProjectFilter from "./ProjectFilter"
 import SearchInput from "@/components/SearchInput"
-import TaskDetail from "./TaskDetail"
+import TaskDetail from "@/components/TaskDetail"
 import TwoColumnNavigation from "@/components/TwoColumnNavigation"
 
 interface LinkTasksProps{
