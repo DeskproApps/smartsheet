@@ -11,7 +11,7 @@ type UseTasksReturn =  {
     tasks: Task[],
   };
 
-  export default function useTasks(sheetId: Maybe<Sheet["id"]>): UseTasksReturn{
+  export default function useTasks(sheetId?: Maybe<Sheet["id"]>): UseTasksReturn{
 
     
     const sheetsResponse = useQueryWithClient([QueryKey.SHEETS_META], getSheets)
