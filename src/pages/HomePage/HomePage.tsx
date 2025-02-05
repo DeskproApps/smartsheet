@@ -25,7 +25,7 @@ const HomePage: FC = () => {
       clearElements();
       registerElement("plus", {
         type: "plus_button",
-        payload: { type: "changePage", path: "/link" },
+        payload: { type: "changePage", path: "/rows/link" },
       })    
       registerElement("refresh", { type: "refresh_button" })
     })
@@ -34,7 +34,7 @@ const HomePage: FC = () => {
         onElementEvent(_id: string, type: string, _payload?: AppElementPayload) {
           switch (type) {
             case "plus_button":
-              navigate("/link-task")
+              navigate("/rows/link")
               break;
           }
         },
@@ -71,13 +71,13 @@ const HomePage: FC = () => {
 
         {!linkedTasks.length? <Stack><P1>No linked tasks. <Link href="#" onClick={(e)=>{
             e.preventDefault()
-            navigate("/link-task")
+            navigate("/rows/link")
         }}>Link Tasks</Link></P1>  </Stack>: linkedTasks.map((linkedTask)=>{
             return (
                 <Fragment key={linkedTask.id}>
                     <Card>
                     <Card.Body>
-                            <TaskDetail task={linkedTask} onClickTitle={()=>navigate(`/edit/${linkedTask.id}`)}/>
+                            <TaskDetail task={linkedTask} onClickTitle={()=>navigate(`/sheet/${linkedTask.sheet.id}/rows/${linkedTask.id}`)}/>
                         </Card.Body>
                     </Card>
                     <HorizontalDivider style={{ marginBottom: 6 }} />

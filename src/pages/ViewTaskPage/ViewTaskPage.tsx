@@ -18,8 +18,6 @@ const ViewTaskPage: FC = () => {
 
     const { sheetId, rowId } = useParams()
 
-
-
     // Providing the sheet id will return a task array with one task
     const { tasks, isLoading } = useTasks(Number(sheetId))
     const { client } = useDeskproAppClient()
@@ -42,7 +40,7 @@ const ViewTaskPage: FC = () => {
                     navigate("/home")
                     break;
                 case "edit_button":
-                    navigate(`/sheets/${sheetId}/${rowId}/edit`)
+                    navigate(`/sheets/${sheetId}/rows/${rowId}/edit`)
                     break;
                 case "menu":
                     if (!client || !ticketId) break
