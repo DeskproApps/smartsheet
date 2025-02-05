@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSetTitle } from "@/hooks/useSetTitle";
 import getRegisteredTaskIds from "@/api/deskpro";
 import TaskCells from "./TaskCells";
-import useTasks from "../LinkTasksPage/useTasks";
+import useTasks from "@/hooks/useTasks";
 
 const TaskNotFound: FC = () => {
     return (<Stack padding={12}><P1>Task not found.</P1>  </Stack>)

@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useSetTitle } from "@/hooks/useSetTitle";
 import getRegisteredTaskIds from "@/api/deskpro";
 import LinkTasks from "./LinkTasks";
-import useTasks from "./useTasks";
+import useTasks from "@/hooks/useTasks";
 
 const LinkTasksPage: FC = ()=>{
   const navigate = useNavigate();

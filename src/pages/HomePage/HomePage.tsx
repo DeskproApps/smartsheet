@@ -9,7 +9,7 @@ import { useSetTitle } from "@/hooks/useSetTitle";
 import Card from "@/components/Card";
 import getRegisteredTaskIds from "@/api/deskpro";
 import TaskDetail from "../LinkTasksPage/TaskDetail";
-import useTasks from "../LinkTasksPage/useTasks";
+import useTasks from "@/hooks/useTasks";
 
 
 const HomePage: FC = () => {
