@@ -1,7 +1,7 @@
 import { faSearch, faTimes, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Input, IconButton } from "@deskpro/deskpro-ui";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Label from "../Label";
 import type { FC, ChangeEvent } from "react";
 
@@ -22,17 +22,17 @@ const SearchInput: FC<SearchInputProps> = ({
 }) => {
   const [search, setSearch] = useState<string>("")
 
-  const onChangeSearch = ({ target: { value: q } }: ChangeEvent<HTMLInputElement>) => {
-    setSearch(q);
-  }
+  const onChangeSearch = useCallback(({ target: { value: q } }: ChangeEvent<HTMLInputElement>) => {
+    setSearch(q)
+  }, [])
 
-  const onClearSearch = () => {
-    setSearch("");
-  }
+  const onClearSearch = useCallback(() => {
+    setSearch("")
+  }, [])
 
   useEffect(() => {
-    onChange && onChange(search);
-  }, [search, onChange]);
+    onChange && onChange(search)
+  }, [search, onChange])
 
   return (
     <Label
