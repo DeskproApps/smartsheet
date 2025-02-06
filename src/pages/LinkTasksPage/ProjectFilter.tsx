@@ -1,4 +1,3 @@
-import { Maybe } from "@/types/general";
 import { Select } from "@deskpro/deskpro-ui";
 import { Sheet, SheetMetadata } from "@/types/smartsheet";
 import Label from "@/components/Label";
@@ -6,8 +5,8 @@ import type { FC, Dispatch } from "react";
 
 interface ProjectFilterProps {
     sheets: SheetMetadata[]
-    selectedSheetId: Maybe<Sheet["id"]>
-    onChangeProject: Dispatch<Maybe<Sheet["id"]>>
+    selectedSheetId: Sheet["id"] | undefined
+    onChangeProject: Dispatch<Sheet["id"] | undefined>
 }
 
 
@@ -33,7 +32,7 @@ const ProjectFilter: FC<ProjectFilterProps> = (props) => {
                     if (typeof optionValue === "string" && optionValue !== "All projects") {
                         onChangeProject(Number(optionValue))
                     } else {
-                        onChangeProject(null)
+                        onChangeProject(undefined)
                     }
                 }}
                 id="projects" />

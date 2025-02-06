@@ -1,7 +1,6 @@
 import { getDetailedSheets, getSheetDetails, getSheets } from "@/api/smartsheet";
 import { getTasksFromSheets } from "@/api/smartsheet/getTasksFromSheets";
 import { QueryKey } from "@/query";
-import { Maybe } from "@/types/general";
 import { Sheet, SheetMetadata, Task, } from "@/types/smartsheet";
 import { useQueryWithClient } from "@deskpro/app-sdk";
 
@@ -11,7 +10,7 @@ type UseTasksReturn = {
     tasks: Task[],
 };
 
-export default function useTasks(sheetId?: Maybe<Sheet["id"]>): UseTasksReturn {
+export default function useTasks(sheetId?: Sheet["id"]): UseTasksReturn {
 
 
     const sheetsResponse = useQueryWithClient([QueryKey.SHEETS_META], getSheets)

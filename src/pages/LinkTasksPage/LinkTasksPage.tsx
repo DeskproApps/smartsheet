@@ -7,7 +7,6 @@ import {
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { applyTaskFilter } from "@/api/smartsheet";
-import { Maybe } from "@/types/general";
 import { Sheet, Task } from "@/types/smartsheet";
 import { TicketData } from "@/types";
 import { useEffect, useState, type FC } from "react";
@@ -22,7 +21,7 @@ const LinkTasksPage: FC = () => {
   const { client } = useDeskproAppClient()
   const { context } = useDeskproLatestAppContext<TicketData, unknown>()
   const [searchQuery, setSearchQuery] = useState<string>("")
-  const [selectedSheetId, setSelectedSheetId] = useState<Maybe<Sheet["id"]>>(null)
+  const [selectedSheetId, setSelectedSheetId] = useState<Sheet["id"] | undefined>(undefined)
   const [selectedTaskIds, setSelectedTaskIds] = useState<Task["id"][]>([]);
   const { sheets, tasks, isLoading } = useTasks(selectedSheetId)
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
@@ -31,7 +30,7 @@ const LinkTasksPage: FC = () => {
   useSetTitle("Link Tasks");
 
   useEffect(() => {
-    setSelectedSheetId(null);
+    setSelectedSheetId(undefined);
   }, [sheets]);
   const ticketId = context?.data?.ticket.id
 

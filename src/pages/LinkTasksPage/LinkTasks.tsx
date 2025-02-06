@@ -2,7 +2,6 @@ import { Button, Checkbox, P1, Spinner, Stack } from "@deskpro/deskpro-ui"
 import { Container } from "@/components/Layout/Container"
 import { Dispatch, FC, Fragment } from "react"
 import { HorizontalDivider } from "@deskpro/app-sdk"
-import { Maybe } from "@/types/general"
 import { Sheet, SheetMetadata, Task } from "@/types/smartsheet"
 import Card from "@/components/Card"
 import ProjectFilter from "./ProjectFilter"
@@ -14,10 +13,10 @@ interface LinkTasksProps {
     onCreateTaskClick: () => void
     onChangeSearch: (search: string) => void
     selectedTaskIds: Task["id"][]
-    selectedSheetId: Maybe<Sheet["id"]>
+    selectedSheetId: Sheet["id"] | undefined
     sheets: SheetMetadata[]
     tasks: Task[]
-    onChangeProject: Dispatch<Maybe<Sheet["id"]>>
+    onChangeProject: Dispatch<Sheet["id"] | undefined>
     isLoading: boolean
     isSubmitting: boolean
     onLinkTasks: () => void
