@@ -1,7 +1,7 @@
 {
   "name": "@deskpro-apps/smartsheet",
   "title": "Smartsheet",
-  "description": "My Deskpro app",
+  "description": "Manage your Smartsheet tasks directly in Deskpro for a seamless workflow integration.",
   "version": "0.0.21",
   "scope": "agent",
   "isSingleInstall": false,
