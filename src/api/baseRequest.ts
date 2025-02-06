@@ -40,14 +40,16 @@ export async function baseRequest<T>(
   const res = await dpFetch(requestUrl, options);
 
   if (res.status < 200 || res.status > 399) {
-    let errorData;
-    const rawText = await res.text()
+    let errorData: unknown;
+    const rawText = await res.text() 
 
     try {
-      errorData = JSON.parse(rawText)
+      errorData = JSON.parse(rawText) 
     } catch {
-      errorData = { message: "Non-JSON error response received", raw: rawText };
+      errorData = { message: "Non-JSON error response received", raw: rawText }
     }
+
+    throw new RequestError("Request failed", errorData);
   }
 
   try {
