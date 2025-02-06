@@ -6,12 +6,12 @@ import { SheetColumn } from "@/types/smartsheet";
  * @param {string} [value] - The cell value to validate
  * @param {SheetColumn} [column] - The column metadata, used to determine formatting
  */
-export function validateCellValue(value?: string, column?: SheetColumn ): string | undefined{
+export function validateCellValue(value?: string, column?: SheetColumn): string | undefined {
 
-    if (!value || ! column) return undefined
+    if (!value || !column) return undefined
 
 
-    switch(column.type){
+    switch (column.type) {
         case "DATETIME": {
             if (value.includes("T")) {
                 const date = new Date(value);
@@ -24,10 +24,10 @@ export function validateCellValue(value?: string, column?: SheetColumn ): string
         }
 
         default:
-            return value 
+            return value
     }
 
 
-    
+
 
 }

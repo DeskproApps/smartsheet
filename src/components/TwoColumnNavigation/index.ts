@@ -1,1 +1,1 @@
-export {default } from "./TwoColumnNavigation"
+export { default } from "./TwoColumnNavigation"

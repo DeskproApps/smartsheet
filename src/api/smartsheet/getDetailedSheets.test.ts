@@ -23,10 +23,12 @@ describe("getDetailedSheets", () => {
     })
 
     it("should return detailed sheets when getSheetDetails succeeds", async () => {
-        const mockSheets = { data: [
-            { id: 1, name: "Sheet 1", accessLevel: "OWNER", createdAt: "", modifiedAt: "" },
-            { id: 2, name: "Sheet 2", accessLevel: "EDITOR", createdAt: "", modifiedAt: "" }
-        ]};
+        const mockSheets = {
+            data: [
+                { id: 1, name: "Sheet 1", accessLevel: "OWNER", createdAt: "", modifiedAt: "" },
+                { id: 2, name: "Sheet 2", accessLevel: "EDITOR", createdAt: "", modifiedAt: "" }
+            ]
+        };
 
         const mockSheetDetails1 = { id: 1, name: "Sheet 1", columns: [], rows: [], createdAt: "", modifiedAt: "" }
         const mockSheetDetails2 = { id: 2, name: "Sheet 2", columns: [], rows: [], createdAt: "", modifiedAt: "" };
@@ -48,10 +50,12 @@ describe("getDetailedSheets", () => {
     });
 
     it("should filter out sheets that fail to fetch details", async () => {
-        const mockSheets = { data: [
-            { id: 1, name: "Sheet 1", accessLevel: "OWNER", createdAt: "", modifiedAt: "" },
-            { id: 2, name: "Sheet 2", accessLevel: "EDITOR", createdAt: "", modifiedAt: "" }
-        ]};
+        const mockSheets = {
+            data: [
+                { id: 1, name: "Sheet 1", accessLevel: "OWNER", createdAt: "", modifiedAt: "" },
+                { id: 2, name: "Sheet 2", accessLevel: "EDITOR", createdAt: "", modifiedAt: "" }
+            ]
+        };
 
         const mockSheetDetails1 = { id: 1, name: "Sheet 1", columns: [], rows: [], createdAt: "", modifiedAt: "" };
 

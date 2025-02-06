@@ -12,8 +12,8 @@ import { Sheet } from "@/types/smartsheet"
  */
 export async function getSheetDetails(client: IDeskproClient, sheetId: number): Promise<Sheet | null> {
     try {
-        return baseRequest<Sheet>(client, {url: `/sheets/${sheetId}`})
-    } catch (e){
+        return baseRequest<Sheet>(client, { url: `/sheets/${sheetId}` })
+    } catch (e) {
         return null
     }
 }

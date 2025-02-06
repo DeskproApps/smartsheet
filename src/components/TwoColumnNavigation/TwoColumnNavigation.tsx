@@ -10,8 +10,8 @@ type Props = {
 
 const TwoColumnNavigation: FC<Props> = ({ selected, onOneNavigate, onTwoNavigate }) => {
 
-    const discardFunc = ()=>{}
-    
+  const discardFunc = () => { }
+
   return (
     <TwoButtonGroup
       selected={selected}

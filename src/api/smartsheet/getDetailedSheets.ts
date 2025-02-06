@@ -9,8 +9,8 @@ import { IDeskproClient } from "@deskpro/app-sdk"
  * 
  * @param {IDeskproClient} client - The Deskpro client.
  */
-export async function getDetailedSheets(client: IDeskproClient): Promise<DetailedSheet[]>{
-    try{
+export async function getDetailedSheets(client: IDeskproClient): Promise<DetailedSheet[]> {
+    try {
         // Get the metadata for all the sheets associated to a user's account.
         const sheets = await getSheets(client)
         if (!sheets.data.length) return []
@@ -23,13 +23,13 @@ export async function getDetailedSheets(client: IDeskproClient): Promise<Detaile
                     return { metadata: sheet, data: fullSheetData }
                 } catch (e) {
                     // Skip failed sheets without crashing the app.
-                    return null; 
+                    return null;
                 }
             })
         )).filter((sheet): sheet is DetailedSheet => sheet !== null)
-    
+
         return detailedSheets
-    } catch(e){
+    } catch (e) {
         return []
     }
 }

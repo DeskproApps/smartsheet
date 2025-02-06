@@ -13,7 +13,7 @@ describe("Search Input", () => {
 
   test("should called onChange", async () => {
     const onChange = jest.fn();
-    const { container } = render(<SearchInput onChange={onChange}/>, { wrappers: { theme: true } });
+    const { container } = render(<SearchInput onChange={onChange} />, { wrappers: { theme: true } });
 
     const input = container.querySelector("input#search");
     expect(input).toBeInTheDocument();

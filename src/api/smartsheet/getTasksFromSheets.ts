@@ -38,7 +38,7 @@ export function getTasksFromSheets(detailedSheets: (Sheet | null)[]): Task[] {
                         value: validateCellValue(cell.displayValue ?? (cell.value !== null && cell.value !== undefined ? String(cell.value) : undefined), column),
                         type: column?.type,
                         isPrimary: column?.primary,
-                        options: column?.options ,
+                        options: column?.options,
                     };
                 }) ?? [],
             };

@@ -17,19 +17,19 @@ import getRegisteredTaskIds from "@/api/deskpro";
 import LinkTasks from "./LinkTasks";
 import useTasks from "@/hooks/useTasks";
 
-const LinkTasksPage: FC = ()=>{
+const LinkTasksPage: FC = () => {
   const navigate = useNavigate();
   const { client } = useDeskproAppClient()
   const { context } = useDeskproLatestAppContext<TicketData, unknown>()
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [selectedSheetId, setSelectedSheetId] = useState<Maybe<Sheet["id"]>>(null)
   const [selectedTaskIds, setSelectedTaskIds] = useState<Task["id"][]>([]);
-  const {sheets, tasks, isLoading} = useTasks(selectedSheetId)
+  const { sheets, tasks, isLoading } = useTasks(selectedSheetId)
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
-  
+
   useSetTitle("Link Tasks");
-  
+
   useEffect(() => {
     setSelectedSheetId(null);
   }, [sheets]);
@@ -41,8 +41,8 @@ const LinkTasksPage: FC = ()=>{
       return;
     }
     getRegisteredTaskIds(client, ticketId)
-    .then(setSelectedTaskIds)
-    .catch(()=>{setSelectedTaskIds([])})
+      .then(setSelectedTaskIds)
+      .catch(() => { setSelectedTaskIds([]) })
   }, [client, ticketId])
 
   // Set the app's badge count as the number of linked tasks
@@ -51,10 +51,10 @@ const LinkTasksPage: FC = ()=>{
       return;
     }
     client.getEntityAssociation("linkedSmartsheetTasks", ticketId)
-    .list()
-    .then((cardIds) => {client.setBadgeCount(cardIds.length)})
-    .catch(()=>{client.setBadgeCount(0)})
-}, [client])
+      .list()
+      .then((cardIds) => { client.setBadgeCount(cardIds.length) })
+      .catch(() => { client.setBadgeCount(0) })
+  }, [client])
 
   useDeskproElements(({ clearElements, registerElement }) => {
     clearElements();
@@ -76,7 +76,7 @@ const LinkTasksPage: FC = ()=>{
   });
 
 
-  const onTaskSelectionChange = (task: Task)=>{
+  const onTaskSelectionChange = (task: Task) => {
     let newTaskIdsSelection = structuredClone(selectedTaskIds)
 
     // Check if the task is already selected
@@ -91,25 +91,25 @@ const LinkTasksPage: FC = ()=>{
     setSelectedTaskIds(newTaskIdsSelection)
   }
 
-  const onLinkTasks = ()=>{
-    if(!client || !ticketId || !selectedTaskIds.length) return
+  const onLinkTasks = () => {
+    if (!client || !ticketId || !selectedTaskIds.length) return
 
     // Attempt linking the tasks and navigate to the home page
     // if successful
     Promise.all(
       [
-        ...selectedTaskIds.map((taskId)=> client
-        .getEntityAssociation("linkedSmartsheetTasks", ticketId)
-      .set(taskId.toString(), {taskId: taskId}))
+        ...selectedTaskIds.map((taskId) => client
+          .getEntityAssociation("linkedSmartsheetTasks", ticketId)
+          .set(taskId.toString(), { taskId: taskId }))
       ]
-    ).then(()=>{
+    ).then(() => {
       setIsSubmitting(false)
       navigate("/home")
-    }).catch(()=>{throw new Error("Error linking tasks")})
+    }).catch(() => { throw new Error("Error linking tasks") })
 
   }
 
-    return (<LinkTasks 
+  return (<LinkTasks
     onCreateTaskClick={() => navigate("/create-task")}
     selectedTaskIds={selectedTaskIds}
     selectedSheetId={selectedSheetId}
@@ -117,15 +117,15 @@ const LinkTasksPage: FC = ()=>{
     onChangeProject={setSelectedSheetId}
     onLinkTasks={onLinkTasks}
     onTaskSelectionChange={onTaskSelectionChange}
-    tasks={applyTaskFilter(tasks, {query: searchQuery})}
+    tasks={applyTaskFilter(tasks, { query: searchQuery })}
     isLoading={isLoading}
     isSubmitting={isSubmitting}
     onChangeSearch={(search: string) => {
-    setSearchQuery(search)
-  }
+      setSearchQuery(search)
+    }
+    }
+  />
+  )
 }
-    /> 
-    )
-  }
 
 export default LinkTasksPage

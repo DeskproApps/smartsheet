@@ -1,4 +1,4 @@
-export interface SmartSheetPageResponse<T = unknown>{
+export interface SmartSheetPageResponse<T = unknown> {
     pageNumber: number
     pageSize: number
     totalPages: number
@@ -17,26 +17,26 @@ export interface SheetMetadata {
     modifiedAt: string
 }
 
-export type SmartsheetColumnType ="TEXT_NUMBER" | "DATE" | "DATETIME" | "PICKLIST" | "CONTACT_LIST" | "CHECKBOX" | "CELL_LINK" | "TIMESTAMP"
+export type SmartsheetColumnType = "TEXT_NUMBER" | "DATE" | "DATETIME" | "PICKLIST" | "CONTACT_LIST" | "CHECKBOX" | "CELL_LINK" | "TIMESTAMP"
 
 export interface SheetColumn {
-    id: number; 
+    id: number;
     version: number
     index: number;
-    title: string; 
+    title: string;
     type: SmartsheetColumnType
-    width: number; 
+    width: number;
     primary?: boolean
     description?: string
-    validation: boolean 
-    symbol?: string; 
-    locked?: boolean; 
-    hidden?: boolean; 
-    options?: string[]; 
+    validation: boolean
+    symbol?: string;
+    locked?: boolean;
+    hidden?: boolean;
+    options?: string[];
     resourceManagementType?: ResourceManagementType
-  }
+}
 
-export interface SheetRowCell{
+export interface SheetRowCell {
     columnId: number
     value?: string | number | boolean | null
     displayValue?: string
@@ -72,11 +72,11 @@ export interface Sheet {
         criticalPathEnabled: boolean
         displaySummaryTasks: boolean
     }
-    cardSettings:{
+    cardSettings: {
         viewByColumnId: number
         level: number
     }
-    workspace:{
+    workspace: {
         id: number
         name: string
     }

@@ -1,1 +1,1 @@
-export {default} from "./SmartsheetLogo"
+export { default } from "./SmartsheetLogo"

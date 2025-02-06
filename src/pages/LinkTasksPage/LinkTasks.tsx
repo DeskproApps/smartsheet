@@ -10,7 +10,7 @@ import SearchInput from "@/components/SearchInput"
 import TaskDetail from "@/components/TaskDetail"
 import TwoColumnNavigation from "@/components/TwoColumnNavigation"
 
-interface LinkTasksProps{
+interface LinkTasksProps {
     onCreateTaskClick: () => void
     onChangeSearch: (search: string) => void
     selectedTaskIds: Task["id"][]
@@ -24,10 +24,10 @@ interface LinkTasksProps{
     onTaskSelectionChange: (task: Task) => void
 }
 
-const LinkTasks: FC<LinkTasksProps> = (props)=>{
+const LinkTasks: FC<LinkTasksProps> = (props) => {
 
     const {
-        onCreateTaskClick, 
+        onCreateTaskClick,
         onChangeSearch,
         onTaskSelectionChange,
         onLinkTasks,
@@ -40,52 +40,52 @@ const LinkTasks: FC<LinkTasksProps> = (props)=>{
         isSubmitting
     } = props
 
-    return(
+    return (
         <>
-        <Container >
-             <TwoColumnNavigation selected="one" onTwoNavigate={onCreateTaskClick}/>
-            <SearchInput onChange={onChangeSearch}/>
-            <ProjectFilter selectedSheetId={selectedSheetId} onChangeProject={onChangeProject} sheets={sheets}/>
-            <Stack>
-                <Button type={"button"} onClick={onLinkTasks} loading={isSubmitting} disabled={selectedTaskIds.length<1} text={selectedTaskIds.length === 1 ? "Link Task" : "Link Tasks"} intent="primary"/>
-            </Stack>
+            <Container >
+                <TwoColumnNavigation selected="one" onTwoNavigate={onCreateTaskClick} />
+                <SearchInput onChange={onChangeSearch} />
+                <ProjectFilter selectedSheetId={selectedSheetId} onChangeProject={onChangeProject} sheets={sheets} />
+                <Stack>
+                    <Button type={"button"} onClick={onLinkTasks} loading={isSubmitting} disabled={selectedTaskIds.length < 1} text={selectedTaskIds.length === 1 ? "Link Task" : "Link Tasks"} intent="primary" />
+                </Stack>
 
-        </Container>
-        
-        <HorizontalDivider/>
+            </Container>
 
-        <Container>
-            
-            {isLoading? (
-                <Stack style={{justifyContent: "center", padding: "10px"}}>
-                    <Spinner/>
-                </Stack>) : 
-            
-            (<>
-            {!tasks.length? <P1>No tasks found.</P1>: (<>
-            
-            {tasks.map((task)=>(
-                <Fragment key={task.id}>
-                    <Card>
-                        <Card.Media>
-                            <Checkbox
-                            size={12}
-                            checked={selectedTaskIds.some((taskId) => task.id === taskId)}
-                            containerStyle={{ marginTop: 4 }}
-                            onClick={()=>onTaskSelectionChange(task)}
-                            />
-                        </Card.Media>
-                        <Card.Body>
-                            <TaskDetail task={task} onClickTitle={()=>onTaskSelectionChange(task)}/>
-                        </Card.Body>
-                    </Card>
-                    <HorizontalDivider style={{ marginBottom: 6 }} />
-                </Fragment>
-            ))}
-            </>)}
-            
-            </>)}
-        </Container>
+            <HorizontalDivider />
+
+            <Container>
+
+                {isLoading ? (
+                    <Stack style={{ justifyContent: "center", padding: "10px" }}>
+                        <Spinner />
+                    </Stack>) :
+
+                    (<>
+                        {!tasks.length ? <P1>No tasks found.</P1> : (<>
+
+                            {tasks.map((task) => (
+                                <Fragment key={task.id}>
+                                    <Card>
+                                        <Card.Media>
+                                            <Checkbox
+                                                size={12}
+                                                checked={selectedTaskIds.some((taskId) => task.id === taskId)}
+                                                containerStyle={{ marginTop: 4 }}
+                                                onClick={() => onTaskSelectionChange(task)}
+                                            />
+                                        </Card.Media>
+                                        <Card.Body>
+                                            <TaskDetail task={task} onClickTitle={() => onTaskSelectionChange(task)} />
+                                        </Card.Body>
+                                    </Card>
+                                    <HorizontalDivider style={{ marginBottom: 6 }} />
+                                </Fragment>
+                            ))}
+                        </>)}
+
+                    </>)}
+            </Container>
         </>
     )
 }

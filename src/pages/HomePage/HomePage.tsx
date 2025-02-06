@@ -19,73 +19,73 @@ const HomePage: FC = () => {
   const { client } = useDeskproAppClient()
   const { context } = useDeskproLatestAppContext<TicketData, unknown>()
   const [linkedTaskIds, setLinkedTaskIds] = useState<Task["id"][]>([])
-  const {isLoading, tasks} = useTasks()
+  const { isLoading, tasks } = useTasks()
 
   useDeskproElements(({ clearElements, registerElement }) => {
-      clearElements();
-      registerElement("plus", {
-        type: "plus_button",
-        payload: { type: "changePage", path: "/rows/link" },
-      })    
-      registerElement("refresh", { type: "refresh_button" })
+    clearElements();
+    registerElement("plus", {
+      type: "plus_button",
+      payload: { type: "changePage", path: "/rows/link" },
     })
+    registerElement("refresh", { type: "refresh_button" })
+  })
 
-    useDeskproAppEvents({
-        onElementEvent(_id: string, type: string, _payload?: AppElementPayload) {
-          switch (type) {
-            case "plus_button":
-              navigate("/rows/link")
-              break;
-          }
-        },
-      });
+  useDeskproAppEvents({
+    onElementEvent(_id: string, type: string, _payload?: AppElementPayload) {
+      switch (type) {
+        case "plus_button":
+          navigate("/rows/link")
+          break;
+      }
+    },
+  });
 
-    const ticketId = context?.data?.ticket.id
-      
-    // Set the linked tasks once the page loads
-    useEffect(() => {
-    if (!ticketId || !client) return 
-    getRegisteredTaskIds(client, ticketId).then(setLinkedTaskIds).catch(()=>setLinkedTaskIds([]))
-    }, [client, ticketId])
+  const ticketId = context?.data?.ticket.id
 
-    // Set the app's badge count as the number of linked tasks
-    useInitialisedDeskproAppClient((client) => {
-        if (!ticketId) {
-          return;
-        }
-        client.getEntityAssociation("linkedSmartsheetTasks", ticketId)
-        .list()
-        .then((cardIds) => {client.setBadgeCount(cardIds.length)})
-        .catch(()=>{client.setBadgeCount(0)})
-    }, [client])
-    
-    const linkedTasks = tasks.filter((task)=>linkedTaskIds.includes(task.id))
+  // Set the linked tasks once the page loads
+  useEffect(() => {
+    if (!ticketId || !client) return
+    getRegisteredTaskIds(client, ticketId).then(setLinkedTaskIds).catch(() => setLinkedTaskIds([]))
+  }, [client, ticketId])
 
-    if(isLoading) return (
+  // Set the app's badge count as the number of linked tasks
+  useInitialisedDeskproAppClient((client) => {
+    if (!ticketId) {
+      return;
+    }
+    client.getEntityAssociation("linkedSmartsheetTasks", ticketId)
+      .list()
+      .then((cardIds) => { client.setBadgeCount(cardIds.length) })
+      .catch(() => { client.setBadgeCount(0) })
+  }, [client])
+
+  const linkedTasks = tasks.filter((task) => linkedTaskIds.includes(task.id))
+
+  if (isLoading) return (
     <Stack padding={20} justify={"center"}>
-        <Spinner/>
+      <Spinner />
     </Stack>
-    )
+  )
 
-    return (<Container>
+  return (<Container>
 
-        {!linkedTasks.length? <Stack><P1>No linked tasks. <Link href="#" onClick={(e)=>{
-            e.preventDefault()
-            navigate("/rows/link")
-        }}>Link Tasks</Link></P1>  </Stack>: linkedTasks.map((linkedTask)=>{
-            return (
-                <Fragment key={linkedTask.id}>
-                    <Card>
-                    <Card.Body>
-                            <TaskDetail task={linkedTask} onClickTitle={()=>navigate(`/sheet/${linkedTask.sheet.id}/rows/${linkedTask.id}`)}/>
-                        </Card.Body>
-                    </Card>
-                    <HorizontalDivider style={{ marginBottom: 6 }} />
-                </Fragment>
-            )
-        }) }
-    </Container>)
-    
+    {!linkedTasks.length ? <Stack><P1>No linked tasks. <Link href="#" onClick={(e) => {
+      e.preventDefault()
+      navigate("/rows/link")
+    }}>Link Tasks</Link></P1>  </Stack> : linkedTasks.map((linkedTask) => {
+      return (
+        <Fragment key={linkedTask.id}>
+          <Card>
+            <Card.Body>
+              <TaskDetail task={linkedTask} onClickTitle={() => navigate(`/sheet/${linkedTask.sheet.id}/rows/${linkedTask.id}`)} />
+            </Card.Body>
+          </Card>
+          <HorizontalDivider style={{ marginBottom: 6 }} />
+        </Fragment>
+      )
+    })}
+  </Container>)
+
 }
 
 export default HomePage

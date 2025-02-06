@@ -22,7 +22,7 @@ const SearchInput: FC<SearchInputProps> = ({
 }) => {
   const [search, setSearch] = useState<string>("")
 
-  const onChangeSearch = ({ target: { value: q }}: ChangeEvent<HTMLInputElement>) => {
+  const onChangeSearch = ({ target: { value: q } }: ChangeEvent<HTMLInputElement>) => {
     setSearch(q);
   }
 
@@ -47,7 +47,7 @@ const SearchInput: FC<SearchInputProps> = ({
         disabled={disabled}
         onChange={onChangeSearch}
         leftIcon={isFetching
-          ? <FontAwesomeIcon icon={faSpinner} spin/>
+          ? <FontAwesomeIcon icon={faSpinner} spin />
           : faSearch
         }
         rightIcon={(

@@ -8,5 +8,5 @@ export type RequestParams = {
   method?: ApiRequestMethod,
   data?: unknown,
   headers?: Dict<string>,
-  queryParams?: string|Dict<string>|ParamKeyValuePair[],
+  queryParams?: string | Dict<string> | ParamKeyValuePair[],
 };

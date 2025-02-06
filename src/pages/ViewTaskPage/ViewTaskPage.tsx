@@ -45,18 +45,18 @@ const ViewTaskPage: FC = () => {
                 case "menu":
                     if (!client || !ticketId) break
                     getRegisteredTaskIds(client, ticketId)
-                    .then(async () => {
-                        try {
-                            await client.getEntityAssociation("linkedSmartsheetTasks", ticketId)
-                                .delete(rowId ?? "");
-                            navigate("/home");
-                        } catch (error) {
-                            return 
-                        }
-                    })
-                    .catch(() => {
-                        
-                    });
+                        .then(async () => {
+                            try {
+                                await client.getEntityAssociation("linkedSmartsheetTasks", ticketId)
+                                    .delete(rowId ?? "");
+                                navigate("/home");
+                            } catch (error) {
+                                return
+                            }
+                        })
+                        .catch(() => {
+
+                        });
                     break
             }
         },
@@ -68,7 +68,7 @@ const ViewTaskPage: FC = () => {
         </Stack>
     )
 
-    const activeTask = tasks.filter((task)=>task.id.toString() === rowId)[0]
+    const activeTask = tasks.filter((task) => task.id.toString() === rowId)[0]
     if (!activeTask) return (<TaskNotFound />)
 
     return <>

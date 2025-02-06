@@ -9,11 +9,11 @@ import { SheetMetadata, SmartSheetPageResponse } from "@/types/smartsheet";
  * @param {IDeskproClient} client - The Deskpro client.
  * 
  */
-export async function getSheets(client: IDeskproClient): Promise<SmartSheetPageResponse<SheetMetadata>>{
-    try{
-        return baseRequest<SmartSheetPageResponse<SheetMetadata>>(client, {url: "/sheets"})
-    } catch(e){
-        const failData: SmartSheetPageResponse<SheetMetadata>= {
+export async function getSheets(client: IDeskproClient): Promise<SmartSheetPageResponse<SheetMetadata>> {
+    try {
+        return baseRequest<SmartSheetPageResponse<SheetMetadata>>(client, { url: "/sheets" })
+    } catch (e) {
+        const failData: SmartSheetPageResponse<SheetMetadata> = {
             pageNumber: 0,
             pageSize: 0,
             totalPages: 0,

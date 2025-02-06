@@ -8,17 +8,17 @@ import type { ParamKeyValuePair } from "react-router-dom";
  *
  * @returns {string} The formatted query string or an empty string if input is invalid.
  */
-export default function getQueryParams (data?: RequestParams["queryParams"]): string  {
-    
-    if (!data) return ""
+export default function getQueryParams(data?: RequestParams["queryParams"]): string {
+
+  if (!data) return ""
 
 
-    // Return an empty string if the data is an empty array or object
-    if ((Array.isArray(data) && data.length === 0) || 
+  // Return an empty string if the data is an empty array or object
+  if ((Array.isArray(data) && data.length === 0) ||
     (typeof data === "object" && Object.keys(data).length === 0)) {
     return "";
-}
-    if (typeof data === "string") {
+  }
+  if (typeof data === "string") {
     return data;
   }
 

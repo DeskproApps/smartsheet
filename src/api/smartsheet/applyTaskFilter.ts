@@ -11,8 +11,8 @@ type Options = {
  * @param {Task[]} tasks - The list of tasks to filter.
  * @param {Options} options - Filtering options.
  */
-export function applyTaskFilter(tasks: Task[], options: Options): Task[]{
-    const {query} = options
+export function applyTaskFilter(tasks: Task[], options: Options): Task[] {
+    const { query } = options
 
     if (!query) return tasks
 

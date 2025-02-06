@@ -11,7 +11,7 @@ const DeskproTickets: FC<Props> = ({ entityId }) => {
   useInitialisedDeskproAppClient((client) => {
     client.entityAssociationCountEntities("linkedSmartsheetTasks", entityId)
       .then(setTicketCount)
-      .catch(()=>{})
+      .catch(() => { })
   });
 
   return <P5>{ticketCount}</P5>

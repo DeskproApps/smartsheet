@@ -1,1 +1,1 @@
-export {default} from "./ViewTaskPage"
+export { default } from "./ViewTaskPage"
