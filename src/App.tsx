@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import LinkTasksPage from "./pages/LinkTasksPage/LinkTasksPage";
-import NotFoundPage from "./pages/NotFoundPage";
-import RedirectPage from "./pages/RedirectPage";
-import ViewTaskPage from "./pages/ViewTaskPage";
+import HomePage from "@/pages/HomePage";
+import LinkTasksPage from "@/pages/LinkTasksPage/LinkTasksPage";
+import NotFoundPage from "@/pages/NotFoundPage";
+import RedirectPage from "@/pages/RedirectPage";
+import ViewTaskPage from "@/pages/ViewTaskPage";
 
 const App = () => {
   return (
