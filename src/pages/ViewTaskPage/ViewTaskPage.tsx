@@ -62,19 +62,23 @@ const ViewTaskPage: FC = () => {
         },
     })
 
-    if (isLoading) return (
-        <Stack padding={20} justify={"center"}>
-            <Spinner />
-        </Stack>
-    )
+    if (isLoading) {
+        return (
+            <Stack padding={20} justify={"center"}>
+                <Spinner />
+            </Stack>
+        )
+    }
 
     const activeTask = tasks.filter((task) => task.id.toString() === rowId)[0]
-    if (!activeTask) return (<TaskNotFound />)
+    if (!activeTask) {
+        return (<TaskNotFound />)
+    }
 
-    return <>
+    return (<>
         <TaskCells task={activeTask} />
         <HorizontalDivider style={{ marginBottom: 6 }} />
-    </>
+    </>)
 }
 
 export default ViewTaskPage

@@ -92,7 +92,9 @@ const LinkTasksPage: FC = () => {
   }
 
   const onLinkTasks = () => {
-    if (!client || !ticketId || !selectedTaskIds.length) return
+    if (!client || !ticketId || !selectedTaskIds.length) {
+      return
+    }
 
     // Attempt linking the tasks and navigate to the home page
     // if successful

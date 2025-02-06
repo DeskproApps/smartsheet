@@ -61,14 +61,15 @@ const HomePage: FC = () => {
 
   const linkedTasks = tasks.filter((task) => linkedTaskIds.includes(task.id))
 
-  if (isLoading) return (
-    <Stack padding={20} justify={"center"}>
-      <Spinner />
-    </Stack>
-  )
+  if (isLoading) {
+    return (
+      <Stack padding={20} justify={"center"}>
+        <Spinner />
+      </Stack>
+    )
+  }
 
   return (<Container>
-
     {!linkedTasks.length ? <Stack><P1>No linked tasks. <Link href="#" onClick={(e) => {
       e.preventDefault()
       navigate("/rows/link")

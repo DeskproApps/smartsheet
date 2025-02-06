@@ -8,8 +8,9 @@ import { SheetColumn } from "@/types/smartsheet";
  */
 export function validateCellValue(value?: string, column?: SheetColumn): string | undefined {
 
-    if (!value || !column) return undefined
-
+    if (!value || !column) {
+        return undefined
+    }
 
     switch (column.type) {
         case "DATETIME": {

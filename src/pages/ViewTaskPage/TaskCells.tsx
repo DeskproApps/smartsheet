@@ -9,6 +9,7 @@ import SmartsheetLogo from "@/components/SmartsheetLogo"
 interface TaskCellsProps {
     task: Task
 }
+
 const TaskCells: FC<TaskCellsProps> = (props) => {
     const { task } = props
 

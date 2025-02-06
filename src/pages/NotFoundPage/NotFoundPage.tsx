@@ -14,13 +14,13 @@ const NotFoundPage: FC = () => {
     })
 
     useSetTitle("Smartsheet")
-    return <Container>
+    return (<Container>
         <Stack vertical gap={10} padding={10} justify={"center"} align={"center"}>
             <H0>Page Not Found</H0>
 
             <Button text={"Go To Home"} intent={"secondary"} onClick={() => { navigate("/home") }} />
         </Stack>
-    </Container>
+    </Container>)
 }
 
 export default NotFoundPage

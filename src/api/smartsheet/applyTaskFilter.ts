@@ -14,7 +14,9 @@ type Options = {
 export function applyTaskFilter(tasks: Task[], options: Options): Task[] {
     const { query } = options
 
-    if (!query) return tasks
+    if (!query) {
+        return tasks
+    }
 
     // Convert the query to lowercase for case-insensitive comparison
     const lowerCaseQuery = query.toLowerCase()

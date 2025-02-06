@@ -13,7 +13,9 @@ export async function getDetailedSheets(client: IDeskproClient): Promise<Detaile
     try {
         // Get the metadata for all the sheets associated to a user's account.
         const sheets = await getSheets(client)
-        if (!sheets.data.length) return []
+        if (!sheets.data.length) {
+            return []
+        }
 
         // Get full info of the sheets in parallel and filter out failed attempts.
         const detailedSheets: DetailedSheet[] = (await Promise.all(

@@ -2,7 +2,6 @@ import { createSearchParams } from "react-router-dom";
 import { RequestParams } from "@/types/api";
 import type { ParamKeyValuePair } from "react-router-dom";
 
-
 /**
  * Converts various types of input data into a query string.
  *
@@ -10,16 +9,18 @@ import type { ParamKeyValuePair } from "react-router-dom";
  */
 export default function getQueryParams(data?: RequestParams["queryParams"]): string {
 
-  if (!data) return ""
-
+  if (!data) {
+    return ""
+  }
 
   // Return an empty string if the data is an empty array or object
   if ((Array.isArray(data) && data.length === 0) ||
     (typeof data === "object" && Object.keys(data).length === 0)) {
-    return "";
+    return ""
   }
+
   if (typeof data === "string") {
-    return data;
+    return data
   }
 
   // If the data is an array, format it using createSearchParams
@@ -30,9 +31,9 @@ export default function getQueryParams(data?: RequestParams["queryParams"]): str
   // If the data is an object, convert the object into key-value pairs
   if (typeof data === "object" && data.constructor === Object) {
     const parsedQueryParams = Object.keys(data)
-      .map<ParamKeyValuePair>((key) => ([key, (data)[key]]));
-    return createSearchParams(parsedQueryParams).toString();
+      .map<ParamKeyValuePair>((key) => ([key, (data)[key]]))
+    return createSearchParams(parsedQueryParams).toString()
   }
 
-  return "";
+  return ""
 };

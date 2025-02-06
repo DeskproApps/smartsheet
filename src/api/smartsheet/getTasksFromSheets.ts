@@ -7,10 +7,14 @@ import { validateCellValue } from "./validateCellValue";
  * @param {(Sheet | null)[]} detailedSheets - An array of detailed Sheet objects or null values.
  */
 export function getTasksFromSheets(detailedSheets: (Sheet | null)[]): Task[] {
-    if (!detailedSheets || detailedSheets.length === 0) return [];
+    if (!detailedSheets || detailedSheets.length === 0) {
+        return []
+    }
 
     return detailedSheets.flatMap((sheet) => {
-        if (!sheet) return [];
+        if (!sheet) {
+            return []
+        }
 
         return sheet.rows.map((row) => {
             return {

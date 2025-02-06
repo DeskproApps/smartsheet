@@ -8,7 +8,9 @@ import { P5 } from "@deskpro/deskpro-ui";
  */
 export default function parseStringWithLinks(text?: string) {
 
-  if (!text) return text
+  if (!text) {
+    return text
+  }
 
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   const parts = text.split(urlRegex);
