@@ -15,7 +15,7 @@ export async function baseRequest<T>(
   client: IDeskproClient,
   {
     url,
-    data = {},
+    data,
     method = "GET",
     queryParams = {},
     headers: customHeaders
@@ -29,35 +29,33 @@ export async function baseRequest<T>(
   const requestUrl = `${baseUrl}?${params}`;
   const options: RequestInit = {
     method,
+    body: data,
     headers: {
       "Authorization": "Bearer __access_token__",
       ...customHeaders,
+      ...(data ? { "Content-Type": "application/json" } : {}),
     },
-  };
-
-  if (data instanceof FormData) {
-    options.body = data;
-  } else if (data && !(typeof data === 'object' && Object.keys(data).length === 0)) {
-    options.body = JSON.stringify(data);
-    options.headers = {
-      "Content-Type": "application/json",
-      ...options.headers,
-    };
   }
 
   const res = await dpFetch(requestUrl, options);
 
   if (res.status < 200 || res.status > 399) {
-    throw new RequestError('Request failed', await res.json());
+    let errorData;
+    const rawText = await res.text()
+
+    try {
+      errorData = JSON.parse(rawText)
+    } catch {
+      errorData = { message: "Non-JSON error response received", raw: rawText };
+    }
   }
 
   try {
     return await res.json() as T;
   } catch (e) {
-    return {} as T;
+    throw new RequestError("Failed to parse JSON response", null)
   }
 }
-
 
 export class RequestError<T = unknown> extends Error {
   data: T | null;
