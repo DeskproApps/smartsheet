@@ -7,12 +7,12 @@ import {
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { applyTaskFilter } from "@/api/smartsheet";
+import { getRegisteredTaskIds, useLogout } from "@/api/deskpro";
 import { Sheet, Task } from "@/types/smartsheet";
 import { TicketData } from "@/types";
 import { useEffect, useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetTitle } from "@/hooks/useSetTitle";
-import getRegisteredTaskIds from "@/api/deskpro";
 import LinkTasks from "./LinkTasks";
 import useTasks from "@/hooks/useTasks";
 
@@ -55,6 +55,8 @@ const LinkTasksPage: FC = () => {
       .catch(() => { client.setBadgeCount(0) })
   }, [client])
 
+  const { logoutActiveUser } = useLogout()
+
   useDeskproElements(({ clearElements, registerElement }) => {
     clearElements();
     registerElement("home", {
@@ -62,6 +64,8 @@ const LinkTasksPage: FC = () => {
       payload: { type: "changePage", path: "/home" },
     })
     registerElement("refresh", { type: "refresh_button" })
+    registerElement("menu", { type: "menu", items: [{ title: "Logout" }] })
+
   });
 
   useDeskproAppEvents({
@@ -70,6 +74,9 @@ const LinkTasksPage: FC = () => {
         case "home_button":
           navigate("/home")
           break;
+        case "menu":
+          logoutActiveUser()
+          break
       }
     },
   });

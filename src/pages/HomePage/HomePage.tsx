@@ -1,13 +1,13 @@
 import { AppElementPayload, HorizontalDivider, Link, useDeskproAppClient, useDeskproAppEvents, useDeskproElements, useDeskproLatestAppContext, useInitialisedDeskproAppClient } from "@deskpro/app-sdk";
 import { Container } from "@/components/Layout/Container";
 import { FC, Fragment, useEffect, useState } from "react"
+import { getRegisteredTaskIds, useLogout } from "@/api/deskpro";
 import { P1, Spinner, Stack } from "@deskpro/deskpro-ui"
 import { Task } from "@/types/smartsheet";
 import { TicketData } from "@/types";
 import { useNavigate } from "react-router-dom"
 import { useSetTitle } from "@/hooks/useSetTitle";
 import Card from "@/components/Card";
-import getRegisteredTaskIds from "@/api/deskpro";
 import TaskDetail from "@/components/TaskDetail";
 import useTasks from "@/hooks/useTasks";
 
@@ -20,6 +20,7 @@ const HomePage: FC = () => {
   const { context } = useDeskproLatestAppContext<TicketData, unknown>()
   const [linkedTaskIds, setLinkedTaskIds] = useState<Task["id"][]>([])
   const { isLoading, tasks } = useTasks()
+  const { logoutActiveUser } = useLogout()
 
   useDeskproElements(({ clearElements, registerElement }) => {
     clearElements();
@@ -28,6 +29,7 @@ const HomePage: FC = () => {
       payload: { type: "changePage", path: "/rows/link" },
     })
     registerElement("refresh", { type: "refresh_button" })
+    registerElement("menu", { type: "menu", items: [{ title: "Logout" }] })
   })
 
   useDeskproAppEvents({
@@ -35,6 +37,9 @@ const HomePage: FC = () => {
       switch (type) {
         case "plus_button":
           navigate("/rows/link")
+          break;
+        case "menu":
+          logoutActiveUser()
           break;
       }
     },
