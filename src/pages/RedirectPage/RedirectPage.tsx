@@ -4,7 +4,7 @@ import { Spinner, Stack } from "@deskpro/deskpro-ui";
 import { TicketData } from "@/types";
 import { useDeskproAppClient, useDeskproElements, useDeskproLatestAppContext } from "@deskpro/app-sdk";
 import { useNavigate } from "react-router-dom";
-import getRegisteredTaskIds from "@/api/deskpro";
+import {getRegisteredTaskIds} from "@/api/deskpro";
 
 const StyledSpinner: FC = () => {
   return (

@@ -4,7 +4,7 @@ import { P1, Spinner, Stack } from "@deskpro/deskpro-ui";
 import { TicketData } from "@/types";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSetTitle } from "@/hooks/useSetTitle";
-import getRegisteredTaskIds from "@/api/deskpro";
+import {getRegisteredTaskIds} from "@/api/deskpro";
 import TaskCells from "./TaskCells";
 import useTasks from "@/hooks/useTasks";
 
