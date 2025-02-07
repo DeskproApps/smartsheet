@@ -113,3 +113,23 @@ export interface Task {
     }[]
 
 }
+
+export interface SmartsheetUser {
+    id: number
+    email: string
+    locale: string
+    timezone: string
+    admin: boolean
+    licensedSheetCreator: boolean
+    groupAdmin: boolean
+    resourceViewer: boolean
+    alternateEmails: string[]
+    sheetCount: number
+    lastLogin: string
+    title: string
+    department: string
+    company: string
+    workPhone: string
+    mobilePhone: string
+    role: string
+}
