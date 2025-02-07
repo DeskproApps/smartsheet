@@ -10,13 +10,13 @@ import ViewTaskPage from "@/pages/ViewTaskPage";
 const App = () => {
   return (
     <Routes>
-      <Route index element={<RedirectPage />} />
-      <Route path="*" element={<NotFoundPage />} />
       <Route path="/admin/callback" element={<AdminCallbackPage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/rows/link" element={<LinkTasksPage />} />
       <Route path="/sheet/:sheetId/rows/:rowId" element={<ViewTaskPage />} />
+      <Route index element={<RedirectPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
