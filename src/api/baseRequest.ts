@@ -31,7 +31,7 @@ export async function baseRequest<T>(
     method,
     body: data,
     headers: {
-      "Authorization": "Bearer __access_token__",
+      "Authorization": "Bearer [user[oauth2/access_token]]",
       ...customHeaders,
       ...(data ? { "Content-Type": "application/json" } : {}),
     },
