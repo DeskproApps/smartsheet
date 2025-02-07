@@ -24,7 +24,8 @@
     "react-error-boundary": "^4.1.2",
     "react-is": "^18.3.1",
     "react-router-dom": "^6.28.2",
-    "styled-components": "^6.1.14"
+    "styled-components": "^6.1.14",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "@deskpro/app-testing-utils": "^1.0.1",
