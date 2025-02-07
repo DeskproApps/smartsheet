@@ -4,7 +4,7 @@ import { Settings } from '@/types/deskpro';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
-import getAccessToken from "@/api/smartsheet/getAccessToken";
+import getSmartsheetAccessToken from "@/api/smartsheet/getSmartsheetAccessToken";
 
 export default function useLogIn() {
     const { client } = useDeskproAppClient()
@@ -46,7 +46,7 @@ export default function useLogIn() {
         callback.poll()
             // Exchange the token for access and refresh tokens
             .then(({ token }) => {
-                return getAccessToken(client, {
+                return getSmartsheetAccessToken(client, {
                     code: token,
                     redirect_uri: callback.callbackUrl,
                 })
