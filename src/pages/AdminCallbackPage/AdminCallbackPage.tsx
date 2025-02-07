@@ -15,7 +15,7 @@ const AdminCallbackPage: FC = () => {
     useInitialisedDeskproAppClient((client) => {
         client.oauth2()
             .getAdminGenericCallbackUrl(key, /code=(?<token>[0-9a-f]+)/, /state=(?<key>.+)/)
-            .then(({ callbackUrl }) => setCallbackUrl(callbackUrl));
+            .then(({ callbackUrl }) => setCallbackUrl(callbackUrl)).catch(()=>{})
     }, [key]);
 
     if (!callbackUrl) {
