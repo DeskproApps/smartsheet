@@ -1,4 +1,4 @@
-import { baseRequest } from "../baseRequest";
+import { baseRequest } from "@/api/baseRequest";
 import { IDeskproClient } from "@deskpro/app-sdk";
 import { SheetMetadata, SmartSheetPageResponse } from "@/types/smartsheet";
 
@@ -11,7 +11,7 @@ import { SheetMetadata, SmartSheetPageResponse } from "@/types/smartsheet";
  */
 export async function getSheets(client: IDeskproClient): Promise<SmartSheetPageResponse<SheetMetadata>> {
     try {
-        return baseRequest<SmartSheetPageResponse<SheetMetadata>>(client, { url: "/sheets" })
+        return await baseRequest<SmartSheetPageResponse<SheetMetadata>>(client, { url: "/sheets" })
     } catch (e) {
         const failData: SmartSheetPageResponse<SheetMetadata> = {
             pageNumber: 0,
