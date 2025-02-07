@@ -6,17 +6,40 @@
   "scope": "agent",
   "isSingleInstall": false,
   "hasDevMode": true,
-  "targets": [{ "target": "ticket_sidebar", "entrypoint": "index.html" }],
+  "targets": [
+    {
+      "target": "ticket_sidebar",
+      "entrypoint": "index.html"
+    }
+  ],
   "settings": {
-    "access_token": {
-      "title": "Access token",
-      "description": "Smartsheet Access token",
+    "client_id": {
+      "title": "Client Id",
       "type": "string",
       "isRequired": true,
-      "isBackendOnly": true
+      "isBackendOnly": false,
+      "order": 10
+    },
+    "client_secret": {
+      "title": "Client Secret",
+      "type": "string",
+      "isRequired": true,
+      "isBackendOnly": true,
+      "order": 20
+    },
+    "callback_url": {
+      "title": "Callback URL",
+      "type": "app_embedded",
+      "options": {
+        "entrypoint": "#/admin/callback",
+        "height": "320px"
+      },
+      "isRequired": false,
+      "isBackendOnly": true,
+      "order": 30
     }
   },
-  "entityAssociations":{
+  "entityAssociations": {
     "linkedSmartsheetTasks": {
       "entity": "ticket",
       "type": "external_id",
@@ -26,8 +49,21 @@
   "proxy": {
     "whitelist": [
       {
+        "url": "https://app.smartsheet.com/b/.*",
+        "methods": [
+          "GET",
+          "POST"
+        ],
+        "timeout": 20
+      },
+      {
         "url": "https://api.smartsheet.com/2.0/.*",
-        "methods": ["GET", "POST", "PUT", "DELETE"],
+        "methods": [
+          "GET",
+          "POST",
+          "PUT",
+          "DELETE"
+        ],
         "timeout": 20
       }
     ]
