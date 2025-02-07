@@ -1,1 +1,2 @@
-export {default} from "./getRegisteredTaskIds"
+export { getRegisteredTaskIds } from "./getRegisteredTaskIds"
+export { useLogout } from "./useLogout"

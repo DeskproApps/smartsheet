@@ -1,6 +1,6 @@
 import { IDeskproClient } from "@deskpro/app-sdk";
 
-export default async function getRegisteredTaskIds(client?: IDeskproClient, ticketId?: string): Promise<number[]> {
+export async function getRegisteredTaskIds(client?: IDeskproClient, ticketId?: string): Promise<number[]> {
     if (!ticketId || !client) {
         return []
     }
