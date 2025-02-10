@@ -22,7 +22,6 @@ pnpm run start
 You should now be able to view the app in your browser.
 
 ## **Testing**
----
 
 We've included `jest` to run your tests. It will look anywhere in `/src` for test suite files ending in `.test.tsx` or `.test.ts`.
 
