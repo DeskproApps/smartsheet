@@ -17,7 +17,7 @@
 ## **About the app**
 Smartsheet is a leading work management and collaboration platform, widely used by businesses to streamline project tracking, automate workflows, and enhance team productivity. Known for its spreadsheet-like interface, Smartsheet helps teams plan, execute, and report on work in real time, making it a go-to solution for project managers and organizations seeking greater efficiency.
 
-The Smartsheet integration with Deskpro allowa you to manage your Smartsheet projects & tasks within Deskpro and link your tasks to Deskpro tickets providing a seamless workflow integration.
+The Smartsheet integration with Deskpro allows you to manage your Smartsheet projects & tasks within Deskpro and link your tasks to Deskpro tickets providing a seamless workflow integration.
 
 ## **Setting up the app in Deskpro**
 You can follow our [setup guide](./SETUP.md) for a step-by-step guide to setting up the Smartsheet app in Deskpro.
