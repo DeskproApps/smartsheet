@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { getActiveSmartsheetUser } from "@/api/smartsheet/getActiveSmartsheetUser";
 import { Spinner, Stack } from "@deskpro/deskpro-ui";
 import { TicketData } from "@/types";
-import { useDeskproAppClient, useDeskproElements, useDeskproLatestAppContext } from "@deskpro/app-sdk";
+import { useDeskproAppClient, useDeskproElements, useDeskproLatestAppContext, useInitialisedDeskproAppClient } from "@deskpro/app-sdk";
 import { useNavigate } from "react-router-dom";
-import {getRegisteredTaskIds} from "@/api/deskpro";
+import { getRegisteredTaskIds } from "@/api/deskpro";
 
 const StyledSpinner: FC = () => {
   return (
@@ -25,20 +25,18 @@ const RedirectPage: FC = () => {
     registerElement("refresh", { type: "refresh_button" })
   });
 
-  useEffect(() => {
-    if (client) {
-      getActiveSmartsheetUser(client)
-        .then((activeUser) => {
-          if (activeUser) {
-            setIsAuthenticated(true)
-          }
-        })
-        .catch(() => { })
-        .finally(() => {
-          setIsFetchingAuth(false)
-        })
-    }
-  }, [client])
+  useInitialisedDeskproAppClient((client) => {
+    getActiveSmartsheetUser(client)
+      .then((activeUser) => {
+        if (activeUser) {
+          setIsAuthenticated(true)
+        }
+      })
+      .catch(() => { })
+      .finally(() => {
+        setIsFetchingAuth(false)
+      })
+  }, [])
 
   if (!client || !context?.data?.ticket.id || isFetchingAuth) {
     return (<StyledSpinner />)

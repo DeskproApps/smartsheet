@@ -34,26 +34,22 @@ const LinkTasksPage: FC = () => {
   }, [sheets]);
   const ticketId = context?.data?.ticket.id
 
-  // Set the selected tasks once the page loads
-  useEffect(() => {
-    if (!ticketId || !client) {
-      return;
-    }
-    getRegisteredTaskIds(client, ticketId)
-      .then(setSelectedTaskIds)
-      .catch(() => { setSelectedTaskIds([]) })
-  }, [client, ticketId])
-
-  // Set the app's badge count as the number of linked tasks
   useInitialisedDeskproAppClient((client) => {
     if (!ticketId) {
       return;
     }
+
+    // Set the selected tasks once the page loads
+    getRegisteredTaskIds(client, ticketId)
+      .then(setSelectedTaskIds)
+      .catch(() => { setSelectedTaskIds([]) })
+
+    // Set the app's badge count as the number of linked tasks
     client.getEntityAssociation("linkedSmartsheetTasks", ticketId)
       .list()
       .then((cardIds) => { client.setBadgeCount(cardIds.length) })
       .catch(() => { client.setBadgeCount(0) })
-  }, [client])
+  }, [ticketId])
 
   const { logoutActiveUser } = useLogout()
 
