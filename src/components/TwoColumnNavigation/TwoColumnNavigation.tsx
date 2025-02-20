@@ -4,13 +4,11 @@ import { FC } from "react";
 
 type Props = {
   selected: TwoButtonGroupProps["selected"],
-  onOneNavigate?: TwoButtonGroupProps["oneOnClick"],
-  onTwoNavigate?: TwoButtonGroupProps["twoOnClick"],
+  onOneNavigate: TwoButtonGroupProps["oneOnClick"],
+  onTwoNavigate: TwoButtonGroupProps["twoOnClick"],
 }
 
 const TwoColumnNavigation: FC<Props> = ({ selected, onOneNavigate, onTwoNavigate }) => {
-
-  const discardFunc = () => { }
 
   return (
     <TwoButtonGroup
@@ -19,8 +17,8 @@ const TwoColumnNavigation: FC<Props> = ({ selected, onOneNavigate, onTwoNavigate
       twoLabel="Create Task"
       oneIcon={faSearch}
       twoIcon={faPlus}
-      oneOnClick={onOneNavigate || discardFunc}
-      twoOnClick={onTwoNavigate || discardFunc}
+      oneOnClick={onOneNavigate}
+      twoOnClick={onTwoNavigate}
     />
   )
 }

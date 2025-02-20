@@ -42,7 +42,7 @@ const LinkTasks: FC<LinkTasksProps> = (props) => {
     return (
         <>
             <Container >
-                <TwoColumnNavigation selected="one" onTwoNavigate={onCreateTaskClick} />
+                <TwoColumnNavigation selected="one" onOneNavigate={()=>{}} onTwoNavigate={onCreateTaskClick}  />
                 <SearchInput onChange={onChangeSearch} />
                 <ProjectFilter selectedSheetId={selectedSheetId} onChangeProject={onChangeProject} sheets={sheets} />
                 <Stack>
