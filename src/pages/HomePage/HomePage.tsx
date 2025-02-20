@@ -74,24 +74,39 @@ const HomePage: FC = () => {
     )
   }
 
-  return (<Container>
-    {!linkedTasks.length ? <Stack><P1>No linked tasks. <Link href="#" onClick={(e) => {
-      e.preventDefault()
-      navigate("/rows/link")
-    }}>Link Tasks</Link></P1>  </Stack> : linkedTasks.map((linkedTask) => {
-      return (
-        <Fragment key={linkedTask.id}>
-          <Card>
-            <Card.Body>
-              <TaskDetail task={linkedTask} onClickTitle={() => navigate(`/sheet/${linkedTask.sheet.id}/rows/${linkedTask.id}`)} />
-            </Card.Body>
-          </Card>
-          <HorizontalDivider style={{ marginBottom: 6 }} />
-        </Fragment>
-      )
-    })}
-  </Container>)
+  if (!linkedTasks.length) {
+    return (
+      <Container>
+        <Stack>
+          <P1>No linked tasks.
+            <Link href="#" onClick={(e) => {
+              e.preventDefault()
+              navigate("/rows/link")
+            }}>
+              Link Tasks
+            </Link>
+          </P1>
+        </Stack>
+      </Container>
+    )
+  }
 
+  return (
+    <Container>
+      {linkedTasks.map((linkedTask) => {
+        return (
+          <Fragment key={linkedTask.id}>
+            <Card>
+              <Card.Body>
+                <TaskDetail task={linkedTask} onClickTitle={() => navigate(`/sheet/${linkedTask.sheet.id}/rows/${linkedTask.id}`)} />
+              </Card.Body>
+            </Card>
+            <HorizontalDivider style={{ marginBottom: 6 }} />
+          </Fragment>
+        )
+      })}
+    </Container>
+  )
 }
 
 export default HomePage
