@@ -1,6 +1,12 @@
-html, body, #root {
-    height: 100%;
-    width: 100%;
-    padding: 0px;
-    margin: 0px;
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  box-sizing: border-box;
 }
