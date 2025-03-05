@@ -2,16 +2,11 @@
   "name": "@deskpro-apps/smartsheet",
   "title": "Smartsheet",
   "description": "Manage your Smartsheet tasks directly in Deskpro for a seamless workflow integration.",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "scope": "agent",
   "isSingleInstall": false,
   "hasDevMode": true,
-  "targets": [
-    {
-      "target": "ticket_sidebar",
-      "entrypoint": "index.html"
-    }
-  ],
+  "targets": [{ "target": "ticket_sidebar", "entrypoint": "index.html" }],
   "settings": {
     "client_id": {
       "title": "Client Id",
@@ -30,10 +25,7 @@
     "callback_url": {
       "title": "Callback URL",
       "type": "app_embedded",
-      "options": {
-        "entrypoint": "#/admin/callback",
-        "height": "320px"
-      },
+      "options": { "entrypoint": "#/admin/callback", "height": "320px" },
       "isRequired": false,
       "isBackendOnly": true,
       "order": 30
@@ -50,20 +42,12 @@
     "whitelist": [
       {
         "url": "https://app.smartsheet.com/b/.*",
-        "methods": [
-          "GET",
-          "POST"
-        ],
+        "methods": ["GET", "POST"],
         "timeout": 20
       },
       {
         "url": "https://api.smartsheet.com/2.0/.*",
-        "methods": [
-          "GET",
-          "POST",
-          "PUT",
-          "DELETE"
-        ],
+        "methods": ["GET", "POST", "PUT", "DELETE"],
         "timeout": 20
       }
     ]
