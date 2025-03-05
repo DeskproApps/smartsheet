@@ -4,7 +4,7 @@ import { P1, Spinner, Stack } from "@deskpro/deskpro-ui";
 import { TicketData } from "@/types";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSetTitle } from "@/hooks/useSetTitle";
-import {getRegisteredTaskIds} from "@/api/deskpro";
+import { getRegisteredTaskIds } from "@/api/deskpro";
 import TaskCells from "./TaskCells";
 import useTasks from "@/hooks/useTasks";
 
@@ -28,7 +28,8 @@ const ViewTaskPage: FC = () => {
     useDeskproElements(({ clearElements, registerElement }) => {
         clearElements();
         registerElement("home", { type: "home_button" })
-        registerElement("edit", { type: "edit_button" })
+        // Uncomment for future version
+        // registerElement("edit", { type: "edit_button" })
         registerElement("refresh", { type: "refresh_button" })
         registerElement("menu", { type: "menu", items: [{ title: "Unlink task" }] })
     });
@@ -39,9 +40,10 @@ const ViewTaskPage: FC = () => {
                 case "home_button":
                     navigate("/home")
                     break;
-                case "edit_button":
-                    navigate(`/sheets/${sheetId}/rows/${rowId}/edit`)
-                    break;
+                // Uncomment for future version
+                // case "edit_button":
+                //     navigate(`/sheets/${sheetId}/rows/${rowId}/edit`)
+                //     break;
                 case "menu":
                     if (!client || !ticketId) break
                     getRegisteredTaskIds(client, ticketId)
