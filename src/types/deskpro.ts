@@ -1,5 +1,5 @@
 export interface Settings{
-    client_id: string
+    client_id?: string
     use_deskpro_saas?: boolean,
 }
 
