@@ -1,82 +1,114 @@
+import { ContextData, Settings } from '@/types/deskpro';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 import { getActiveSmartsheetUser } from '@/api/smartsheet/getActiveSmartsheetUser';
-import { OAuth2StaticCallbackUrl, useDeskproAppClient, useDeskproLatestAppContext, useInitialisedDeskproAppClient } from '@deskpro/app-sdk';
-import { Settings } from '@/types/deskpro';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { v4 as uuid } from 'uuid';
+import { getRegisteredTaskIds } from '@/api/deskpro';
+import { OAuth2Result, useDeskproLatestAppContext, useInitialisedDeskproAppClient } from '@deskpro/app-sdk';
+import { placeholders } from '@/placeholders';
+import { useCallback, useState } from 'react';
 import getSmartsheetAccessToken from "@/api/smartsheet/getSmartsheetAccessToken";
 
-export default function useLogIn() {
-    const { client } = useDeskproAppClient()
-    const { context } = useDeskproLatestAppContext<unknown, Settings>()
+interface UseLogin {
+    onSignIn: () => void,
+    authUrl: string | null,
+    error: null | string,
+    isLoading: boolean,
+};
+
+export default function useLogin(): UseLogin {
+    const [authUrl, setAuthUrl] = useState<string | null>(null)
+    const [error, setError] = useState<null | string>(null)
     const [isLoading, setIsLoading] = useState(false)
-    const [callback, setCallback] = useState<OAuth2StaticCallbackUrl | null>(null)
-    const [authURL, setAuthURL] = useState<string | null>(null)
-    const key = useMemo(() => uuid(), [])
     const navigate = useNavigate()
 
-    const clientId = context?.settings.client_id
+    const { context } = useDeskproLatestAppContext<ContextData, Settings>()
 
-    useInitialisedDeskproAppClient(client => {
-        client
-            .oauth2()
-            .getGenericCallbackUrl(key, /code=(?<token>.+?)&/, /state=(?<key>[^&]+)/)
-            .then(setCallback).catch(()=>{});
-    }, [setCallback]);
+    const ticketId = context?.data?.ticket?.id
 
-    useEffect(() => {
-        if (callback?.callbackUrl && clientId) {
-            setAuthURL(`https://app.smartsheet.com/b/authorize?${new URLSearchParams({
-                response_type: "code",
-                client_id: clientId,
-                redirect_uri: callback.callbackUrl,
-                state: key,
-                scope: "READ_SHEETS WRITE_SHEETS"
-            }).toString()}`)
-        }
-    }, [key, callback, clientId])
 
-    const poll = useCallback(() => {
-        if (!callback?.poll || !client || !context) {
+    // TODO: Update useInitialisedDeskproAppClient typing in the
+    // App SDK to to properly handle both async and sync functions
+
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    useInitialisedDeskproAppClient(async (client) => {
+        if (context?.settings.use_deskpro_saas === undefined || !ticketId) {
+            // Make sure settings have loaded.
             return
         }
 
-        setTimeout(() => setIsLoading(true), 500);
+        const mode = context?.settings.use_deskpro_saas ? 'global' : 'local';
 
-        callback.poll()
-            // Exchange the token for access and refresh tokens
-            .then(({ token }) => {
-                return getSmartsheetAccessToken(client, {
-                    code: token,
-                    redirect_uri: callback.callbackUrl,
-                })
-            })
-            // Save access and refresh tokens in user state
-            .then(({ access_token, refresh_token }) => {
-                return Promise.all([
-                    client.setUserState('oauth2/access_token', access_token, { backend: true }),
-                    client.setUserState('oauth2/refresh_token', refresh_token, { backend: true })
-                ])
-            })
-            // Get the user's info and redirect to the "Link Tasks" page if the user is valid/found
-            .then(() => {
-                return getActiveSmartsheetUser(client)
-            })
-            .then((activeUser) => {
-                if (activeUser) {
-                    navigate("/rows/link")
+        const clientId = context?.settings.client_id;
+        if (mode === 'local' && (typeof clientId !== 'string' || clientId.trim() === "")) {
+            // Local mode requires a clientId.
+            setError("A client ID is required");
+            return
+        }
+
+        const oauth2 = mode === "local" ?
+            await client.startOauth2Local(
+                ({ state, callbackUrl }) => {
+                    return `https://app.smartsheet.com/b/authorize?${createSearchParams([
+                        ["response_type", "code"],
+                        ["client_id", clientId ?? ""],
+                        ["redirect_uri", callbackUrl],
+                        ["scope", "READ_SHEETS WRITE_SHEETS"],
+                        ["state", state],
+                    ]).toString()}`;
+                },
+                /\bcode=(?<code>[^&#]+)/,
+                async (code: string): Promise<OAuth2Result> => {
+                    // Extract the callback URL from the authorization URL
+                    const url = new URL(oauth2.authorizationUrl);
+                    const redirectUri = url.searchParams.get("redirect_uri");
+
+                    if (!redirectUri) {
+                        throw new Error("Failed to get callback URL");
+                    }
+
+                    const data: OAuth2Result["data"] = await getSmartsheetAccessToken(client, { code, redirect_uri: redirectUri });
+
+                    return { data }
                 }
-            })
-            .catch(() => { })
-            // Reset loading state after polling is done
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, [callback, navigate, client, context,]);
+            )
+            // Global Proxy Service
+            : await client.startOauth2Global("190b8eca-21a8-4753-aa6e-c32b55078c72");
 
-    return {
-        authURL,
-        isLoading,
-        poll,
-    };
-};
+        setAuthUrl(oauth2.authorizationUrl)
+        setIsLoading(false)
+
+        try {
+            const result = await oauth2.poll()
+
+            await client.setUserState(placeholders.OAUTH2_ACCESS_TOKEN_PATH, result.data.access_token, { backend: true })
+
+            if (result.data.refresh_token) {
+                await client.setUserState(placeholders.OAUTH2_REFRESH_TOKEN_PATH, result.data.refresh_token, { backend: true })
+            }
+
+            const activeUser = await getActiveSmartsheetUser(client)
+
+            if (!activeUser) {
+                throw new Error("Error authenticating user")
+            }
+
+            getRegisteredTaskIds(client, ticketId)
+                .then((linkedTaskIds) => {
+                    linkedTaskIds.length < 1 ? navigate("/rows/link") :
+                        navigate("/home")
+                })
+                .catch(() => { navigate("/rows/link") })
+
+        } catch (error) {
+            setError(error instanceof Error ? error.message : 'Unknown error');
+            setIsLoading(false);
+        }
+    }, [setAuthUrl, context?.settings.use_deskpro_saas])
+
+    const onSignIn = useCallback(() => {
+        setIsLoading(true);
+        window.open(authUrl ?? "", '_blank');
+    }, [setIsLoading, authUrl]);
+
+    return { authUrl, onSignIn, error, isLoading }
+
+}
