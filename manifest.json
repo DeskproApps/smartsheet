@@ -4,6 +4,7 @@
   "description": "Manage your Smartsheet tasks directly in Deskpro for a seamless workflow integration.",
   "version": "0.0.22",
   "scope": "agent",
+  "secrets": "txhPxpPp3jicl2ExhUjcGj1058U6XBP79iwuYE08Hb+3JLENkU2cRqWg8bQE19l7tsJ2yc67gee3ynDEaCxd+MzDQUQzZjLVOpauDWMIFaYMtqtFmzQ7SFFSkdlFQC9iB25tRVenVcP4+ptwDt751G8mRTXxa5N3vFI50QW8EdrWKhlcwOUIMeLkMyNG/anmq/TB12r91zXT94j/HvKzjBnnPi/3Dy9CUKL5D6Q4Vf7n0/VQLchUCM/qyZZa0xuimaAeSHjYvKNz2LhEjoGK1Ug/Vp0QJQ5Ti+Vj09MOWEb0Lm9hwP0Pe1lK0amG9PRQwsx7ydMBw92Tow+tQQ7OlHVVbK7xB9XiOq8599SDDoMYhgq3/j8Pg8w5i0FoLQP9maX1bYa/YfdS+Y/QwhwhtGaYzIFFoi6UZ4us8+jP0zJ8FvMGmCxfO8MwcA66M7jcS90yVZ3qA9XrUu4+dEjj8uMcUyk4a4UO2LlsFvDZ2B23QYz1Nndlk/niQIjgaRfCHLk0sQq1IpLEklTTYrpbYCcBp9HFqeMY7yIyLZt0szRDa98B6D6aYoh59tqQzj4pGVEBMgDV9nzCf5PUJUcQ7k0IqBywMiGsq5ERVGmcg2LOZrCedoEcCif+qLVJQFXVKrB6F12gJbNScf12wv/9Lkpm7kBFqeYY/CC+Zp/nlvJeMfxyFDmSOKK0kw9XMzZDyLFzRZQ7EXAvFMmbjAmLJ6Uif+okthIPrEcqDT/wOAyd7+uTDzB7GMmZpjhBKtA5i8HWw6gI1obtTjYDV62XJdh018Yzinu57E8wnK9zBoe8sShcT0PA0rTICmGKkV3DJ9Hdt713DSIjRPNMLGIDP5Ce82xtPOmH3U64CMbv+192tH0eKBfXhlPe2jfdKy5gF4jn0XYzwmGaKID0O4G9yRgWV1y9KdcpHU/BF8dofK1kuKsmb0EGZAu0Vr1kaU9VSQ5H9xDB/qTb0yr0LYlDXh0jf6kw6GTrSEvVMxexX36tEM+A5vneOlHUDgk8L5KRd3P5q4x0oAx5uDPO4fy62CfeZGViI9a5EFnDQ7fwOYinQrbAl4FEQaXuUazlzZoGRZhnyFCi48Jv6NkWLJwLYQ==",
   "isSingleInstall": false,
   "hasDevMode": true,
   "targets": [{ "target": "ticket_sidebar", "entrypoint": "index.html" }],
