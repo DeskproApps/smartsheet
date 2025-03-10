@@ -1,10 +1,10 @@
-import { IDeskproClient, proxyFetch } from "@deskpro/app-sdk";
+import { IDeskproClient, OAuth2Result, proxyFetch } from "@deskpro/app-sdk";
 
 interface AccessTokenRequestPayload {
     code: string
     redirect_uri: string
 }
-export default async function getSmartsheetAccessToken(client: IDeskproClient, params: AccessTokenRequestPayload) {
+export default async function getSmartsheetAccessToken(client: IDeskproClient, params: AccessTokenRequestPayload): Promise<OAuth2Result["data"]> {
     const fetch = await proxyFetch(client)
 
     const requestPayload = {
@@ -26,7 +26,7 @@ export default async function getSmartsheetAccessToken(client: IDeskproClient, p
         throw new Error(`Error: ${response.statusText}`);
     }
 
-    return response.json();
+    return await response.json() as OAuth2Result["data"]
 
 
 

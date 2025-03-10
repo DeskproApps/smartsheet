@@ -3,6 +3,7 @@ import { Container } from "@/components/Layout/Container";
 import { FC } from "react";
 import { useDeskproElements, useInitialisedDeskproAppClient } from "@deskpro/app-sdk";
 import { useSetTitle } from "@/hooks/useSetTitle";
+import StyledErrorBlock from "@/components/StyledErrorBlock";
 import useLogIn from "./useLogin";
 
 const LoginPage: FC = () => {
@@ -18,21 +19,22 @@ const LoginPage: FC = () => {
         client.setBadgeCount(0)
     }, [])
 
-    const { authURL, isLoading, poll } = useLogIn();
+    const { authUrl, isLoading, onSignIn, error } = useLogIn();
 
     return (<Container>
         <Stack vertical gap={12}>
             <H3>Log into your Smartsheet account.</H3>
             <AnchorButton
-                disabled={!authURL || isLoading}
-                href={authURL || "#"}
+                disabled={!authUrl || isLoading}
+                href={authUrl || "#"}
                 loading={isLoading}
-                onClick={poll}
+                onClick={onSignIn}
                 target={"_blank"}
                 text={"Log In"}
-
             />
+        {error && <StyledErrorBlock>{error}</StyledErrorBlock>}
         </Stack>
+
     </Container>)
 }
 

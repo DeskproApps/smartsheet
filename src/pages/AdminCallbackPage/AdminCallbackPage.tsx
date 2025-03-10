@@ -1,31 +1,60 @@
-import {
-    CopyToClipboardInput,
-    LoadingSpinner,
-    useInitialisedDeskproAppClient,
-} from "@deskpro/app-sdk";
+import { CopyToClipboardInput, IOAuth2, LoadingSpinner, OAuth2Result, useInitialisedDeskproAppClient } from "@deskpro/app-sdk";
+import { createSearchParams } from "react-router-dom";
 import { P1 } from "@deskpro/deskpro-ui";
-import { useState, useMemo } from "react";
-import { v4 as uuid } from 'uuid';
+import { ThemeProps } from "@/types/general";
+import { useState } from "react";
+import styled from "styled-components";
 import type { FC } from "react";
 
-const AdminCallbackPage: FC = () => {
-    const [callbackUrl, setCallbackUrl] = useState<string | null>(null);
-    const key = useMemo(() => uuid(), [])
+const Description = styled(P1)`
+  margin-top: 8px;
+  margin-bottom: 16px;
+  color: ${({ theme }: ThemeProps) => theme.colors.grey80};
+`;
 
-    useInitialisedDeskproAppClient((client) => {
-        client.oauth2()
-            .getAdminGenericCallbackUrl(key, /code=(?<token>[0-9a-f]+)/, /state=(?<key>.+)/)
-            .then(({ callbackUrl }) => setCallbackUrl(callbackUrl)).catch(()=>{})
-    }, [key]);
+const AdminCallbackPage: FC = () => {
+    const [callbackUrl, setCallbackUrl] = useState<string | null>(null)
+
+    // TODO: Update useInitialisedDeskproAppClient typing in the
+    // App SDK to to properly handle both async and sync functions
+
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    useInitialisedDeskproAppClient(async (client) => {
+        const oauth2: IOAuth2 = await client.startOauth2Local(
+            ({ callbackUrl, state }: { callbackUrl: string; state: string }) => {
+                return `https://app.smartsheet.com/b/authorize?${createSearchParams([
+                    ["response_type", "code"],
+                    ["client_id", "xxx"],
+                    ["state", state],
+                    ["redirect_uri", callbackUrl],
+                    ["scope", "xxx"],
+                ]).toString()}`;
+            },
+            /code=(?<code>[0-9a-f]+)/,
+            // Disabling eslint here because the function does not perform any asynchronous operations
+            // and we don't need to await anything
+            // eslint-disable-next-line @typescript-eslint/require-await
+            async (): Promise<OAuth2Result> => {
+                return { data: { access_token: "", refresh_token: "" } };
+            }
+        );
+
+        const url = new URL(oauth2.authorizationUrl);
+        const redirectUri = url.searchParams.get("redirect_uri")
+
+        if (redirectUri) {
+            setCallbackUrl(redirectUri)
+        }
+    }, [])
 
     if (!callbackUrl) {
-        return (<LoadingSpinner />);
+        return (<LoadingSpinner />)
     }
 
     return (
         <>
             <CopyToClipboardInput value={callbackUrl} />
-            <P1>The callback URL will be required during your Smartsheet app setup</P1>
+            <Description>The callback URL will be required during the Smartsheet app setup</Description>
         </>
     );
 };
