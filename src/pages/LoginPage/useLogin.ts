@@ -126,6 +126,7 @@ export default function useLogin(): UseLogin {
 
     const onSignIn = useCallback(() => {
         setIsLoading(true);
+        setIsPolling(true);
         window.open(authUrl ?? "", '_blank');
     }, [setIsLoading, authUrl]);
 
