@@ -1,6 +1,6 @@
 export interface Settings{
     client_id?: string
-    use_deskpro_saas?: boolean,
+    use_advanced_connect?: boolean,
 }
 
 export type ContextData = {

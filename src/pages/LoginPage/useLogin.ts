@@ -20,7 +20,7 @@ export default function useLogin(): UseLogin {
     const [isLoading, setIsLoading] = useState(false)
     const [isPolling, setIsPolling] = useState(false)
     const [oauth2Context, setOAuth2Context] = useState<IOAuth2 | null>(null)
-    
+
     const navigate = useNavigate()
 
     const { context } = useDeskproLatestAppContext<ContextData, Settings>()
@@ -33,12 +33,12 @@ export default function useLogin(): UseLogin {
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     useInitialisedDeskproAppClient(async (client) => {
-        if (context?.settings.use_deskpro_saas === undefined || !ticketId) {
+        if (!ticketId) {
             // Make sure settings have loaded.
             return
         }
 
-        const mode = context?.settings.use_deskpro_saas ? 'global' : 'local';
+        const mode = context?.settings.use_advanced_connect === false ? 'global' : 'local';
 
         const clientId = context?.settings.client_id;
         if (mode === 'local' && (typeof clientId !== 'string' || clientId.trim() === "")) {
@@ -79,8 +79,8 @@ export default function useLogin(): UseLogin {
         setAuthUrl(oauth2Response.authorizationUrl)
         setOAuth2Context(oauth2Response)
 
-        
-    }, [setAuthUrl, context?.settings.use_deskpro_saas])
+
+    }, [setAuthUrl, context?.settings.use_advanced_connect])
 
 
     useInitialisedDeskproAppClient((client) => {
@@ -91,26 +91,26 @@ export default function useLogin(): UseLogin {
         const startPolling = async () => {
             try {
                 const result = await oauth2Context.poll()
-    
+
                 await client.setUserState(placeholders.OAUTH2_ACCESS_TOKEN_PATH, result.data.access_token, { backend: true })
-    
+
                 if (result.data.refresh_token) {
                     await client.setUserState(placeholders.OAUTH2_REFRESH_TOKEN_PATH, result.data.refresh_token, { backend: true })
                 }
-    
+
                 const activeUser = await getActiveSmartsheetUser(client)
-    
+
                 if (!activeUser) {
                     throw new Error("Error authenticating user")
                 }
-    
+
                 getRegisteredTaskIds(client, ticketId)
                     .then((linkedTaskIds) => {
                         linkedTaskIds.length < 1 ? navigate("/rows/link") :
                             navigate("/home")
                     })
                     .catch(() => { navigate("/rows/link") })
-    
+
             } catch (error) {
                 setError(error instanceof Error ? error.message : 'Unknown error');
             } finally {
