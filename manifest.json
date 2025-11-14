@@ -57,12 +57,28 @@
       {
         "url": "https://app.smartsheet.com/b/.*",
         "methods": ["GET", "POST"],
-        "timeout": 20
+        "timeout": 20,
+        "settingsInjection": {
+          "client_id": {
+            "body": ["client_id"]
+          },
+          "client_secret": {
+            "body": ["client_secret"]
+          }
+        }
       },
       {
         "url": "https://api.smartsheet.com/2.0/.*",
         "methods": ["GET", "POST", "PUT", "DELETE"],
-        "timeout": 20
+        "timeout": 20,
+        "settingsInjection": {
+          "client_id": {
+            "body": ["client_id"]
+          },
+          "client_secret": {
+            "body": ["client_secret"]
+          }
+        }
       }
     ]
   }
